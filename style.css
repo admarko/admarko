@@ -1,0 +1,235 @@
+/*Info
+**Version: 1.0
+**Author: Alex Markowitz
+**Website: facebook.com/admarko
+** Contact: admarko@gmail.com
+*/
+
+/* Header block */
+#header{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    color: #CCC;
+    background: #333;
+    padding: 0px;
+    z-index: 10; /* overlay header */
+}
+
+header .row{
+  display: flex;
+  align-items: center;
+}
+
+header h1 {
+  font-weight: 700;
+  margin: 0;
+}
+
+header nav {
+  display: flex;
+  justify-content: flex-end;
+}
+
+header p {
+  padding-right: 10px;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  color: white;
+}
+
+/* Body block */
+body{
+    text-align: center;
+    color: black;
+    font-family: 'Exo 2', 'Roboto', sans-serif; 
+    background: url("Images/NYC.png");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: repeat;
+    background-attachment: fixed;
+    height: 100%;
+    width: 100%;
+}
+
+/* All Links (throughout) */
+a:link, a:visited {
+    color: #5bb4d9;
+}
+
+#subtitles{
+    color: #5bb4d9;
+}
+
+p{
+    font-size: 24px;
+}
+
+/* Name block */
+#name{        
+    font-size: 60px;
+    color: white;
+    top: 10px;
+    bottom: 200px;
+    padding-top: 250px;
+    padding-bottom: 250px;
+    text-align: center;
+}
+
+#myname{
+    width: 100%;
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px 1px #747575;
+    font-size: 50px;
+}
+
+#namehelp{
+    font-size: 30px;
+    color: white;
+    text-shadow: 1px 1px 1px #747575;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Bio block */
+#bio{
+    color: #333230;  
+    height: 100%;
+    width: 100%;
+    background: white;
+    font-size: 5px;
+}
+
+#bio h3, #bio h1{
+    font-family: 'Montserrat', sans-serif;
+    color: #3898c0
+}
+
+#biotagline, #projectstagline{
+    padding-bottom: 10px;
+    color: #5bb4d9;
+}
+
+#bio p{
+    font-family: 'Pontano Sans', 'Palanquin', sans-serif;
+}
+
+#alex-pic{ 
+    margin-top: 20px;
+    height: 250px;
+    width: 250px;
+}
+
+#stats{
+    font-size: 18px;
+    padding-top: 10px;
+    padding-bottom: 100px;
+}
+
+/* Experience block */
+
+#experience{
+    color: black;
+    top: 900px;
+    height: 100%;
+    width: 100%;
+    background: #f4efe4; 
+    font-size: 5px;
+    
+}
+
+#experience h1, #bio h1, #projects h1{
+    padding-top: 10px;
+    color: #3898c0;
+}
+
+#experience h2{
+    color: #3898c0;
+}
+
+#experience-title, #experience-subtitle, #admarko-title{
+    color: #333230;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Education, Work, Extracurriculars - fixed alignment*/
+#experience-subtitle{
+    text-align: left;
+    padding-left: 120px;
+}
+
+#experience-period, #location{
+    text-align: left;
+    font-size: 16px;
+}
+
+#description{
+    font-size: 16px;
+    padding-top: 5px;
+}
+
+#UChi, #Track, #GreenTech{
+    padding-top: 80px;
+    text-align: left;
+    font-family: 'Pontano Sans', 'Palanquin', sans-serif;
+    color: #333230;
+
+}
+
+#HCHS, #Saatchi, #MOTIV, #Kenwood, #Maroon, #DU, #admarko, #cache, #shell{
+    padding-top: 20px;
+    text-align: left;
+    font-family: 'Pontano Sans', 'Palanquin', sans-serif;
+    color: #333230;
+
+}
+
+/* Projects block */
+#projects{
+    color: black;
+    top: 900px;
+    height: 100%;
+    width: 100%;
+    background: white; 
+    font-size: 5px;
+    
+}
+    
+/* Other block */
+input[type="submit"]{
+    color: black;
+    background: limegreen;
+    border: 10;
+    padding: 12px;
+    font-size: 18px;
+    top: 2px;
+    position: relative;
+}
+
+/* Footer block */
+#footer{
+    padding-top: 5px;
+    display: block;
+    height: 100%;
+    width: 100%;
+    color: white;
+    background: #333 no-repeat fixed center;
+    position: static;
+}
+
+#copyright{
+    font-size: 15px;
+    float: left;
+    font-family: 'Pontano Sans', sans-serif;
+}
+
+#all-logos{
+    float: right;
+}
+
+#logos{
+    height: 25px;
+    width: 25px;
+}
