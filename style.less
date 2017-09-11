@@ -1,0 +1,476 @@
+/*Info: www.admarko.xyz
+Date: August 2017
+Version: 2.0
+Author: Alex Markowitz
+Contact: admarko@gmail.com
+To Compile, run:  lessc --clean-css style.less style.min.css
+*/
+
+/* Color Scheme from: https://dribbble.com/shots/3703480-Hampton-Roads */
+@dark-blue: #214555;
+@white: #F7F5EF;
+@brown-grey: #C5C2B9;
+@hot-pink: #EC5C7D;
+@blue-grey: #C7D7D4;
+@purple-grey: #9B828D;
+@aqua: #6FEED8;
+
+
+body{
+  text-align: center;
+  background: url("Images/NYC.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: repeat;
+  background-attachment: fixed;
+  height: 100%;
+  width: 100%;
+  font-family: 'Roboto';
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Chivo';
+  }
+  p {
+    font-family: 'Roboto'
+  }
+}
+
+/* All Links (throughout) */
+a:link, a:visited {
+  color: @dark-blue;
+}
+
+.navbar{
+  background-color: @dark-blue;
+  border: -1px solid transparent;
+  .navbar-right{
+    padding-right: 10px;
+    li {
+      float: none;
+      text-align: center;
+      display: inline-block;
+      a {
+        color: @blue-grey;
+        font-size: 17px;
+        padding: 15px;
+      }
+      a:hover {
+        background-color: @blue-grey;
+        color: @dark-blue;
+      }
+    }
+  }
+}
+
+/* Name block */
+.nyc{
+  color: @white;
+  top: 10px;
+  bottom: 200px;
+  padding-top: 250px;
+  padding-bottom: 250px;
+  text-align: center;
+  p{
+    font-size: 30px;
+    text-shadow: 1px 1px 1px @dark-blue;
+  }
+  .myname{
+    width: 100%;
+    font-size: 50px;
+  }
+}
+
+/* Bio block */
+.bio{
+  width: 100%;
+  background-color: @white;
+  padding-top: 20px;
+  padding-bottom: 80px;
+  font-size: 14px;
+  color: @dark-blue;
+  font-family: 'Roboto';
+  h3, h1 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-family: 'Chivo'
+  }
+  h1 {
+    font-size: 48px;
+  }
+  h3 {
+    font-size: 32px;
+  }
+  .alex-pic{
+    margin-top: 30px;
+    width: 60%;
+  }
+  .dl-horizontal {
+    text-align: left;
+    padding-left: 5px;
+  }
+}
+
+/* Experience block */
+.experience {
+  color: @dark-blue;
+  background-color: @blue-grey;
+  text-align: left;
+  padding-bottom: 100px;
+  h1 { //Experience
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: @dark-blue;
+    text-align: center;
+    font-size: 48px;
+  }
+  h2 { //Education, Work, Extracurriculars
+    padding-left: 90px;
+    padding-bottom: 50px;
+    padding-top: 20px;
+    font-size: 36px;
+  }
+  .schools{
+    padding-bottom: 100px;
+    .cardx {
+      height: 399px;
+      width: 300px;
+      margin: 0 auto;
+      .front {
+        img {
+          width: 300px;
+          height: auto;
+        }
+      }
+      .back {
+        background: @brown-grey;
+        color: @dark-blue;
+        text-align: center;
+        border: 2px solid @purple-grey;
+        border-radius: 7px;
+        height: auto;
+        .school {
+          font-size: 21px;
+        }
+        .title {
+          text-align: left;
+          margin-bottom: 0;
+          margin-left: 5px;
+        }
+        .dates {
+          text-align: left;
+          margin-bottom: 0;
+          margin-left: 5px;
+        }
+        .loc {
+          text-align: left;
+          margin-left: 5px;
+        }
+        .description {
+          text-align: left;
+          margin-left: 5px;
+          margin-right: 5px;
+          margin-top: 40px;
+        }
+      }
+    }
+  }
+  .jobs {
+    .cardy {
+      height: 120px;
+      width: 100%;
+      margin: 0 auto;
+      border: 2px solid @purple-grey;
+      border-radius: 3px;
+      background: @brown-grey;
+      .front {
+        font-size: 72px;
+        text-align: center;
+        z-index: 1;
+        opacity: 1;
+        color: white;
+        overflow: auto;
+      }
+      .gradient1{ /*https://uigradients.com/ */
+        background-image: linear-gradient(to right, #007991, #78ffd6);
+      }
+      .gradient2{
+        background-image: linear-gradient(to right, #6d6027, #d3cbb8);
+      }
+      .gradient3{
+        background-image: linear-gradient(to right, #52c234, #061700);
+      }
+      .gradient4{
+        background-image: linear-gradient(to right, #c0392b, #8e44ad);
+      }
+      .gradient5{
+        background-image: linear-gradient(to right, #870000, #190a05);
+      }
+      .back {
+        text-align: left;
+        height: auto;
+        color: @dark-blue;
+        overflow: auto;
+        .col-md-3 {
+          padding-left: 20px;
+        }
+        .company, .title, .dates, .loc, .link {
+          margin-bottom: 0px;
+        }
+        .description {
+          margin-top: 15px;
+        }
+        .company {
+          padding-top: 3px;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}
+
+/* Projects block*/
+.projects {
+  color: @dark-blue;
+  background-color: @purple-grey;
+  text-align: left;
+  padding-bottom: 100px;
+  h1 { //Experience
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: @dark-blue;
+    text-align: center;
+    font-size: 48px;
+  }
+  h2 { //Education, Work, Extracurriculars
+    padding-left: 90px;
+    padding-bottom: 50px;
+    padding-top: 20px;
+    font-size: 36px;
+  }
+  i {
+      font-size: 100px;
+  }
+
+
+  /* Skills Devicons */
+  @font-face {
+    font-family: 'anyoldicon';
+    src:url('../fonts/anyoldicon/anyoldicon.eot');
+    src:url('../fonts/anyoldicon/anyoldicon.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/anyoldicon/anyoldicon.woff') format('woff'),
+    url('../fonts/anyoldicon/anyoldicon.ttf') format('truetype'),
+    url('../fonts/anyoldicon/anyoldicon.svg#anyoldicon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  /* General grid styles */
+  .cbp-ig-grid {
+    list-style: none;
+    padding: 0 0 50px 0;
+    margin: 0;
+  }
+
+  /* Clear floats */
+  .cbp-ig-grid:before,
+  .cbp-ig-grid:after {
+    content: " ";
+    display: table;
+  }
+
+  .cbp-ig-grid:after {
+    clear: both;
+  }
+
+  /* grid item */
+  .cbp-ig-grid li {
+    width: 10%; //amount of items wide should be (100/amount of icons)
+    float: left;
+    height: 420px;
+    text-align: center;
+    border-top: 0px solid @white; //border
+  }
+
+  /* we are using a combination of borders and box shadows to control the grid lines */
+  .cbp-ig-grid li:nth-child(-n+3){
+    border-top: none;
+  }
+
+  .cbp-ig-grid li:nth-child(3n-1),
+  .cbp-ig-grid li:nth-child(3n-2) {
+    box-shadow: 0px 0 0 @white; //borders
+  }
+
+  /* anchor style */
+  .cbp-ig-grid li > a {
+    display: block;
+    height: 40%; //hight of blue
+    color: @dark-blue;
+    -webkit-transition: background 0.2s;
+    -moz-transition: background 0.2s;
+    transition: background 0.2s;
+  }
+
+  /* the icon with pseudo class for icon font */
+  .cbp-ig-icon {
+    padding: 30px 0 0 0;
+    display: block;
+    -webkit-transition: -webkit-transform 0.2s;
+    transition: -moz-transform 0.2s;
+    transition: transform 0.2s;
+  }
+
+  .cbp-ig-icon:before {
+    font-family: 'anyoldicon';
+    font-size: 14em;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* title element */
+  .cbp-ig-grid .cbp-ig-title {
+    margin: 20px 0 10px 0;
+    padding: 20px 0 0 0;
+    font-size: 2em;
+    position: relative;
+    -webkit-transition: -webkit-transform 0.2s;
+    -moz-transition: -moz-transform 0.2s;
+    transition: transform 0.2s;
+  }
+
+  .cbp-ig-grid .cbp-ig-title:before {
+    content: '';
+    position: absolute;
+    background: #47a3da;
+    width: 160px;
+    height: 6px;
+    top: 0px;
+    left: 50%;
+    margin: -10px 0 0 -80px;
+    -webkit-transition: margin-top 0.2s; /* top or translate does not seem to work in Firefox */
+    -moz-transition: margin-top 0.2s;
+    transition: margin-top 0.2s;
+  }
+
+  .cbp-ig-grid .cbp-ig-category {
+    text-transform: uppercase;
+    display: inline-block;
+    font-size: 1em;
+    letter-spacing: 1px;
+    color: @white;
+    -webkit-transform: translateY(10px);
+    -moz-transform: -moz-translateY(10px);
+    -ms-transform: -ms-translateY(10px);
+    transform: translateY(10px);
+    opacity: 0;
+    -webkit-transition: -webkit-transform 0.3s, opacity 0.2s;
+    -moz-transition: -moz-transform 0.3s, opacity 0.2s;
+    -webkit-transition: transform 0.3s, opacity 0.2s;
+  }
+
+  .cbp-ig-grid li:hover .cbp-ig-category,
+  .touch .cbp-ig-grid li .cbp-ig-category {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+    -moz-transform: translateY(0px);
+    -ms-transform: translateY(0px);
+    transform: translateY(0px);
+  }
+
+  /* Hover styles */
+
+  .cbp-ig-grid li > a:hover {
+    background: #47a3da;
+  }
+
+  .cbp-ig-grid li > a:hover .cbp-ig-icon {
+    -webkit-transform: translateY(10px);
+    -moz-transform: translateY(10px);
+    -ms-transform: translateY(10px);
+    transform: translateY(10px);
+  }
+
+  .cbp-ig-grid li > a:hover .cbp-ig-icon:before,
+  .cbp-ig-grid li > a:hover .cbp-ig-title {
+    color: @white;
+  }
+
+  .cbp-ig-grid li > a:hover .cbp-ig-title {
+    -webkit-transform: translateY(-30px);
+    -moz-transform: translateY(-30px);
+    -ms-transform: translateY(-30px);
+    transform: translateY(-30px);
+  }
+
+  .cbp-ig-grid li > a:hover .cbp-ig-title:before {
+    background: @white;
+    margin-top: 80px;
+  }
+
+  @media screen and (max-width: 62.75em) {
+    .cbp-ig-grid li {
+      width: 50%;
+    }
+    /* reset the grid lines */
+    .cbp-ig-grid li:nth-child(-n+3){
+      border-top: 1px solid #ddd;
+    }
+    .cbp-ig-grid li:nth-child(3n-1),
+    .cbp-ig-grid li:nth-child(3n-2) {
+      box-shadow: none;
+    }
+    .cbp-ig-grid li:nth-child(-n+2){
+      border-top: none;
+    }
+    .cbp-ig-grid li:nth-child(2n-1) {
+      box-shadow: 0px 0 0 #ddd; //shadwo
+    }
+  }
+
+  @media screen and (max-width: 41.6em) {
+    .cbp-ig-grid li {
+      width: 100%;
+    }
+    .cbp-ig-grid li:nth-child(-n+2){
+      border-top: 0px solid #ddd; //shadow
+    }
+    .cbp-ig-grid li:nth-child(2n-1) {
+      box-shadow: none
+    }
+    .cbp-ig-grid li:first-child {
+      border-top: none;
+    }
+  }
+
+  @media screen and (max-width: 25em) {
+    .cbp-ig-grid {
+      font-size: 80%;
+    }
+    .cbp-ig-grid .cbp-ig-category {
+      margin-top: 20px;
+    }
+  }
+}
+
+
+/* Footer block */
+#footer{
+  padding-top: 5px;
+  display: block;
+  height: 100%;
+  width: 100%;
+  color: white;
+  background: #333 no-repeat fixed center;
+  position: static;
+  .copyright{
+    font-size: 15px;
+    float: left;
+  }
+  .logos{
+    text-align: right;
+  }
+}

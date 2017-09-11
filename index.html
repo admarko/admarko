@@ -1,372 +1,425 @@
 <!DOCTYPE html>
-<!--Info:
-    Date: 12/12/16
-    Author: Alex Markowitz
-    Website: facebook.com/admarko
-    Contact: admarko@gmail.com
--->
-<html lang="en-US">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Alex Markowitz">
-<meta name="keywords" content="Alex Markowitz">
-<meta name="author" content="Alex Markowitz">
-<meta charset="utf-8">
-
-<!-- START OF HTML -->
+<!--Info: www.admarko.xyz
+Date: August 2017
+Version: 2.0
+Author: Alex Markowitz
+Contact: admarko@gmail.com -->
 <head>
-    <title>Alex Markowitz</title>
-    <link rel="icon" href="Images/AM_Favicon.png">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
-    <!-- Javascript links at end for faster page load -->
+  <html lang="en-US">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Alex Markowitz">
+  <meta name="keywords" content="Alex Markowitz, UChicago, Student, Computer Science, CS, Entrepeneurship">
+  <meta name="author" content="Alex Markowitz">
+  <meta charset="utf-8">
+
+  <title>Alex Markowitz</title>
+  <link rel="icon" href="Images/AM_Favicon.png">
+  <link rel="stylesheet" type="text/css" href="style.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Chivo|Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+
+  <!-- Javascript links at end for faster page load -->
 </head>
 
 <body>
-    <!-- Header block BEGIN -->
-    <header class="container" id="header">
-        <div class="row">
-            <h1 class="col-sm-1">
-                <a href="http://www.admarko.xyz">
-                    <img src="Images/AM_White.png" style="height: 24px; width: 32px;">
-                </a>
-            </h1>
-            <nav class="col-sm-11 text-right">
-                <a href="#biolink"> <p>Bio</p> </a>
-                <a href="#experiencelink"> <p>Experience</p> </a>
-                <a href="#projectslink"> <p>Projects</p> </a>
-                <a href="#contactlink"> <p>Contact</p> </a>
-            </nav>
-        </div>
-    </header>
-    <!-- Header block END -->
+  <!-- Navbar block BEGIN -->
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="http://www.admarko.xyz">
+        <img src="Images/AM_White.png" style="height: 24px; width: 32px;">
+      </a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#biolink"> Bio </a></li>
+      <li><a href="#experiencelink"> Experience </a></li>
+      <li><a href="#projectslink"> Projects </a></li>
+      <li><a href="#contactlink"> Contact </a></li>
+    </ul>
+  </div>
+  <!-- Header block END -->
 
-    <!-- Name block BEGIN -->
-    <section id="name" class="page">
-        <p id="namehelp"> Hello, my name is</p>
-        <div>
-            <p id="myname"> <strong>Alex Markowitz</strong></p>
-            <hr style="width: 30%;">
-        </div>
-        <p id="namehelp">Welcome to my website</p>
-    </section>
-    <!-- Name block END -->
+  <!-- NYC block BEGIN -->
+  <div class="nyc">
+    <p class="animated bounceInDown"> Hello, my name is </p>
+    <p class="myname animated bounceInLeft"> <strong>Alex Markowitz</strong></p>
+    <hr style="width: 30%;">
+    <p class="animated bounceInUp">Welcome to my website</p>
+  </div>
+  <!-- NYC block END -->
 
-    <!-- Bio block BEGIN -->
+  <!-- Bio block BEGIN -->
+  <div class="bio container-fluid">
     <a name="biolink"></a>
-    <section id="bio">
-        <div id="profile" class="container">
-            <h1> <strong> Bio </strong> </h1>
-            <p class="lead" id="biotagline">Student, Coder, Sports Enthusiast</p>
-            <hr style="border-color: #333230">
-            <div class="row">
-                <div class="col-md-4">
-                    <h3>About Me <span class="glyphicon glyphicon-user"></span> </h3>
-                        <p style="font-size: 18px;">
-                        I am currently a Sophomore at The University of Chicago studying both Computer Science and Economics. Outside the classroom I am on the Varsity Track &#38 Field Team, a brother of the Delta Upsilon Fraternity, and interning at MOTIV. I am interested in technology, entrepreneurship, coding, math, linguistics and sports. Don't hesitate to <a href="#contactlink"> reach out </a> to me for potential project ideas!</p>
-                </div>
-                <div class="col-md-4">
-                    <img src="Images/Face_Blue.png" alt="Alex Markowitz" id="alex-pic"/>
-                </div>
-                <div class="col-md-4">
-                    <h3>Stats <span class="glyphicon glyphicon-signal" > </span></h3>
-                    <p id="stats">
-                        <strong>Name:</strong> Alex Markowitz<br />
-                        <strong>Age:</strong> 20 years<br />
-                        <strong>Hometown:</strong> New York City<br />
-                        <strong>School:</strong> The University of Chicago<br />
-                        <strong>Major:</strong> Computer Science &#38 Economics<br />
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Bio block END -->
+    <h1> <strong> Bio </strong> </h1>
+    <hr>
+    <div class="row">
+      <div class="col-md-4">
+        <h3>About Me <i class="fa fa-user" aria-hidden="true"></i> </h3>
+        <p>I'm currently a Junior at <a href="www.uchicago.edu">The University of Chicago</a> studying <a href="www.cs.uchicago.edu">Computer Science</a>. Outside the classroom, I run for the <a href="www.athletics.uchicago.edu/sports/mtrack/index">Varsity Track &#38 Field Team</a>, am brother of the <a href="">Delta Upsilon Fraternity</a>, and intern at <a href="#experiencelink2">Chicago-based startups</a>. I am interested in technology, entrepreneurship, coding, math, linguistics and sports. Please don't hesitate to <a href="#contactlink2">reach out</a> to me for potential project ideas!</p>
+      </div>
+      <div class="col-md-4">
+        <img src="Images/Face.png" alt="Alex Markowitz" class="alex-pic"/>
+      </div>
+      <div class="col-md-4">
+        <h3>Stats <i class="fa fa-bar-chart" aria-hidden="true"></i></h3>
+        <dl class="dl-horizontal">
+          <dt>Name:</dt> <dd>Alex Markowitz</dd>
+          <dt>Age:</dt> <dd>20 years</dd>
+          <dt>Hometown:</dt> <dd>New York City</dd>
+          <dt>School:</dt> <dd>The University of Chicago</dd>
+          <dt>Major:</dt> <dd>Computer Science </dd>
+          <dt>Year:</dt> <dd>Junior</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <!-- Bio block END -->
 
-    <!-- Experience block BEGIN -->
+  <!-- Experience block BEGIN -->
+  <div class="experience container-fluid">
     <a name="experiencelink"></a>
-    <section id="experience" class="container">
-        <div id="experience-title" class="container">
-            <h1> <strong> Experience </strong> </h1>
-            <hr style="border-color: #333230;">
+    <a name="experiencelink2"></a>
+    <div class="row">
+      <h1> <strong> Experience </strong> </h1>
+    </div>
+    <hr> <!-- Education Start -->
+    <div class="row">
+      <h2> Education <i class="fa fa-graduation-cap" aria-hidden="true"></i></h2>
+    </div>
+    <div class="schools row">
+      <div class="col-md-6">
+        <div class="cardx UChi"> <!-- card help from: http://nnattawat.github.io/flip/ -->
+          <div class="front">
+            <img src="Images/UChi.png" style="width: 125%"/>
+          </div>
+          <div class="back">
+            <p class="school"> <strong>The University of Chicago</strong> </p>
+            <p class="title"> <strong> <em> Bachelor of Science in Computer Science </em> </strong>  </p>
+            <p class="dates"> September 2015 - June 2019 (Expected)  </p>
+            <p class="loc"> <i class="fa fa-map-marker" aria-hidden="true"></i> Chicago, IL </p>
+            <p class="description"> I am currently pursuing a B.S. in Computer Science from the University of Chicago. Passionate about growth of knowledge in all fields, I'm taking classes in a variety of other subjects including Mathematics, Economics and Linguistics. I am very interested in exploring the intersection of technology and business by interning at entrepreneurial startups. Dean's List (2015-2016, 2016-2017). </p>
+          </div>
         </div>
-        <div class="col-md-4">
-            <h2 id="experience-subtitle"> <strong> Education <span class="glyphicon glyphicon-education"> </span> </strong> </h2>
+      </div>
+      <div class="col-md-6">
+        <div class="cardx HCHS">
+          <div class="front">
+            <img src="Images/hchs.png"/>
+          </div>
+          <div class="back">
+            <p class="school"> <strong>Hunter College High School</strong> </p>
+            <p class="title"> <strong> <em>  </em> </strong>  </p>
+            <p class="dates"> September 2011 - June 2015  </p>
+            <p class="loc"> <i class="fa fa-map-marker" aria-hidden="true"></i> New York, NY</p>
+            <p class="description"> I graduated HCHS in 2015 after 14 years at Hunter. I received a broad-based education specializing in technical subjects by taking AP classes in Computer Science, Calculus, Microeconomics &#38 Macroeconomics, Statistics, and Physics: Mechanics and Electricity &#38 Magnetism. I was also on the Varsity Soccer and Track &#38 Field teams, Vice-President of the student government, and Sports Editor of the official school newspaper. </p>
+          </div>
         </div>
-        <div id="schools">
-            <div id="UChi" class="container">
-                <div class="col-md-4">
-                    <p id="subtitles"> <strong> The University of Chicago </strong> </p>
-                    <p id="experience-period"> September 2015 - June 2019 (Expected) </p>
-                        <div id="location">
-                            <span class="glyphicon glyphicon-map-marker"></span> Chicago, IL
-                        </div>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        <strong> <em> Bachelor of Arts in Computer Science &#38 Economics </em> </strong> <br/>
-                        <span id="description">Currently pursuing a B.A. in Computer Science and Economics from the University of Chicago. Passionate about growth of knowledge in all fields. Taking classes in a variety of other fields including Mathematics, Linguistics and Spanish. I'm interested in exploring the intersection of technology and business by interning at entrepreneurial startups. Dean's List (2015-2016)</span>
-                    </p>
-                </div>
+      </div>
+    </div>
+    <hr> <!-- Work Start -->
+    <div class="row">
+      <h2> Work <i class="fa fa-briefcase" aria-hidden="true"></i></h2>
+    </div>
+    <div class="jobs">
+      <div class="col-md-offset-1 col-md-10 container-fluid"> <!-- TT Start -->
+        <div class="cardy TT">
+          <div class="front gradient1">
+            <em>Trading Technologies</em>
+          </div>
+          <div class="back">
+            <div class="row container">
+              <div class="col-md-3">
+                <p class="company"><strong> Trading Technologies </strong></p>
+                <p class="title"><strong><em> Software Engineering Intern </em></strong></p>
+                <p class="dates"> June 2017 - August 2017 </br>
+                  <p class="loc">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    Chicago, IL
+                  </p>
+                  <p class="link">
+                    <a href="www.tradingtechnologies.com" target="_blank">
+                      www.tradingtechnologies.com
+                    </a>
+                  </p>
+                </p>
+              </div>
+              <div class="col-md-9">
+                <ul class="description list-style">
+                  <li> Developed client-side code for comprehensive high-speed, web-based futures trading platform built in Javascript</li>
+                  <li> Identified and fixed client-reported bugs to improve UX in HTML5, CSS3, LESS, jQuery, Underscore.js &amp; Backbone.js</li>
+                  <li> Devised and implemented system to generate additional business event analytics for Domo through AWS Kinesis &amp; Redshift</li>
+                  <li> Placed 1st in internal futures trading competition among interns on TT trading platform</li>
+                </ul>
+              </div>
             </div>
-            <br/>
-            <div id="HCHS" class="container" style="padding-bottom: 25px;">
-                <div class="col-md-4">
-                    <p id="subtitles"> <strong> Hunter College High School </strong> </p>
-                    <p id="experience-period"> September 2011 - June 2015</p>
-                    <div id="location">
-                        <span class="glyphicon glyphicon-map-marker"></span> New York, NY
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        <br/>
-                        <span id="description">I graduated HCHS in 2015 after 14 years at Hunter. I received a broad-based education specializing in the more technical subjects by taking AP classes in Computer Science, Calculus, Microeconomics &#38 Macroeconomics, Statistics, and Physics: Mechanics and Electricity &#38 Magnetism. I was also on the Varsity Soccer and Track &#38 Field teams, Vice-President of the student government, and Sports Editor of the official school newspaper.</span>
-                    </p>
-                </div>
-            </div>
+          </div>
         </div>
-        <hr style="border-color: #333230;">
-        <div class="col-md-4">
-            <h2 id="experience-subtitle"> <strong> Work <span class="glyphicon glyphicon-briefcase"></span> </strong> </h2>
+      </div> <!-- TT end -->
+      <div class="col-md-offset-1 col-md-10"> <!-- MTM Start -->
+        <div class="cardy MTM">
+          <div class="front gradient2">
+            <em>MoreThanMe Movmement</em>
+          </div>
+          <div class="back">
+            <div class="row container">
+              <div class="col-md-3">
+                <p class="company"><strong> MoreThanMe Movement </strong></p>
+                <p class="title"><strong><em> Business Intern </em></strong></p>
+                <p class="dates"> Sep 2016 - Present </br>
+                  <p class="loc">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    Chicago, IL
+                  </p>
+                  <p class="link">
+                    <a href="www.mtmovement.com" target="_blank">
+                      www.mtmovement.com
+                    </a>
+                  </p>
+                </p>
+              </div>
+              <div class="col-md-9">
+                <ul class="description list-style">
+                  <li> Developed fundraising strategy and helped raise over $25,000 to finance construction of a handicap-accessible baseball field</li>
+                  <li> Organized local community campaign in Nashville, TN to gather support and raise awareness for project</li>
+                  <li> Identified opportunities for and helped establish strategic corporate partnerships</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="jobs">
-            <!-- GreenTech start -->
-            <div id="GreenTech" class="container">
-                <div class="col-md-4">
-                    <p id="subtitles"> <strong> GreenTech Research, LLC. </strong> </p>
-                    <p id="experience-period"> August 2016 - September 2016 </p>
-                    <div id="location">
-                        <span class="glyphicon glyphicon-map-marker"></span>New York, NY
-                    </div>
-                    <a href="http://www.greentechfund.com" style="font-size: 20px;" target="_blank"> www.greentechfund.com </a>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        <strong> <em>  Summer Intern </em> </strong> <br/>
-                        <span id="description">Worked as Summer Intern for small market research firm. Responsibilities included: assisting CEO with real-time market and stock analysis and economic commentary for live Bloomberg Media interview. Preparing market commentary reports with data and written analysis for subscription-based financial newsletter. Analyzing pre-IPO companies, researching emerging trends and examining prior election year markets to identify investment opportunities for subscribers</span>
-                    </p>
-                </div>
+      </div> <!-- MTM end -->
+      <div class="col-md-offset-1 col-md-10"> <!-- GTR Start -->
+        <div class="cardy GTR">
+          <div class="front gradient3">
+            <em>GreenTech Research</em>
+          </div>
+          <div class="back">
+            <div class="row">
+              <div class="col-md-3">
+                <p class="company"><strong> GreenTech Research </strong></p>
+                <p class="title"><strong><em> Summer Analyst </em></strong></p>
+                <p class="dates"> Aug 2016 - Sep 2016 </br>
+                  <p class="loc">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    New York, NY
+                  </p>
+                  <p class="link">
+                    <a href="www.greentechfund.com" target="_blank">
+                      www.greentechfund.com
+                    </a>
+                  </p>
+                </p>
+              </div>
+              <div class="col-md-9">
+                <ul class="description list-style">
+                  <li> Assisted CEO with real-time market and stock analysis and economic commentary for live Bloomberg Media interview</li>
+                  <li> Prepared market commentary reports with data and written analysis for subscription-based financial newsletters</li>
+                  <li> Analyzed pre-IPO companies, researched emerging trends and examined prior election year markets to identify investment opportunities for subscribers</li>
+                </ul>
+              </div>
             </div>
-            <!-- GreenTech end -->
-            <!-- MOTIV start -->
-            <div id="MOTIV" class="container">
-                <div class="col-md-4">
-                    <p id="subtitles"> <strong> MOTIV </strong> </p>
-                    <p id="experience-period"> September 2016 - Present </p>
-                    <div id="location">
-                        <span class="glyphicon glyphicon-map-marker"></span>Chicago, IL
-                    </div>
-                    <a href="http://www.motivpay.com" style="font-size: 20px;" target="_blank"> www.motivpay.com </a>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        <strong> <em> Business Development Intern </em> </strong> <br/>
-                        <span id="description">MOTIV is an early stage alternative payment platform for nonprofits to obtain additional funding easily. While working there I helped to create our website (HTML based) as well as high-level product functions and MVP requirements for our development team. I additionally assisted CEO with investor pitch deck preparation for funding round and conducted market research on online retail landscape and partnership opportunities.</span>
-                    </p>
-                </div>
-            </div>
-            <!-- MOTIV end -->
-            <!-- Saatchi start -->
-            <div id="Saatchi" class="container">
-                <div class="col-md-4">
-                    <p id="subtitles"> <strong> M&#38C Saatchi Mobile  </strong> </p>
-                    <p id="experience-period"> June 2013 - September 2014</p>
-                    <div id="location">
-                        <span class="glyphicon glyphicon-map-marker"></span>New York, NY
-                    </div>
-                    <a href="http://www.mcsaatchimobile.com" style="font-size: 20px;" target="_blank"> www.mcsaatchimobile.com </a>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        <strong> <em> Mobile Media Agency Intern </em> </strong> <br/>
-                        <span id="description">Over the course of two summers I worked at M&#38C Saatchi Mobile, a mobile media agency based out of NYC. While working there I conducted competitive analysis for clients and synthesized market research data for employee use. I also used Excel to analyzed ad campaign success and evaluate performance.</span>
-                    </p>
-                </div>
-            </div>
-            <!-- Saatchi end -->
-            <!-- Kenwood start -->
-            <div id="Kenwood" class="container" style="padding-bottom: 25px;">
-                <div class="col-md-4">
-                    <p id="subtitles"> <strong> Camps Kenwood &#38 Evergreen  </strong> </p>
-                    <p id="experience-period"> June 2014 - August 2016</p>
-                    <div id="location">
-                            <span class="glyphicon glyphicon-map-marker"></span>Wilmot, NH
-                    </div>
-                    <a href="http://kenwood-evergreen.com" style="font-size: 20px;" target="_blank"> www.kenwood-evergreen.com </a>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        <strong> <em> General Counselor </em></strong> <br/>
-                        <span id="description">For three summers, I taught a unit of approximately 30 children 21st Century Skills such as communication, collaboration, leadership, creative, critical thinking, problem solving, work ethic and responsibility through traditional summer camp and team-building activities. I personally oversaw bunk of 6 to 8 boys – responsible for their safety and well being.</span>
-                    </p>
-                </div>
-            </div>
-            <!-- Kenwood end -->
+          </div>
         </div>
-        <hr style="border-color: #333230;">
-        <div class="col-md-4">
-             <h2 id="experience-subtitle"> <strong> Extracurriculars <span class="glyphicon glyphicon-apple"></span> </strong> </h2>
-        </div>
-        <div class="schools">
-            <div id="Track" class="container">
-                <div class="col-md-4">
-                    <p id="subtitles"> <strong> UChicago Varsity Track &#38 Field Team </strong> </p>
-                    <p id="experience-period"> September 2015 - Present</p>
-                        <div id="location">
-                            <span class="glyphicon glyphicon-map-marker"></span>Chicago, IL
-                        </div>
-                        <a href="http://athletics.uchicago.edu/sports/mtrack/index" style="font-size: 20px;" target="_blank"> UChicago Track </a>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        <strong><em> Sprinter </em></strong> <br/>
-                        <span id="description">I am a member of UChicago's Varsity Track &#38 Field Team balancing a 20+ hour weekly practice and competition schedule commitments with full course load and other on campus activities. </br> HCHS Varsity Track: 1st in Pentathlon, 3rd in 55m, 5th in 55m &#38 110 High Hurdles (2015 Manhattan records).</span>
-                    </p>
-                </div>
-            </div>
-            <br/>
-            <div id="Maroon" class="container">
-                <div class="col-md-4">
-                    <p id="subtitles"> <strong> The Chicago Maroon</strong> </p>
-                    <p id="experience-period"> September 2015 - Present </p>
-                    <div id="location">
-                        <span class="glyphicon glyphicon-map-marker"></span>Chicago, IL
-                    </div>
-                    <a href="http://chicagomaroon.com" style="font-size: 20px;" target="_blank"> www.chicagomaroon.com </a>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        <strong> <em> Director of Strategy, Maroon Business Team </em></strong> <br/>
-                        <span id="description">At school, I work for the Chicago Maroon's Business Team leading the Strategy Division. I have helped to develop strategic initiatives to improve paper readership through a large scale survey analyzing reader feedback. My team and I work to strategize new ideas for business development, alumni outreach and fundraising activities. Personally oversaw the relaunch of The Maroon’s social media presence, increasing daily interactions, reach and followers.</span>
-                    </p>
-                </div>
-            </div>
-            <div id="DU" class="container" style="padding-bottom: 25px;">
-                <div class="col-md-4">
-                    <p id="subtitles"> <strong>Delta Upsilon International Fraternity</strong> </p>
-                    <p id="experience-period"> September 2015 - Present </p>
-                    <div id="location">
-                        <span class="glyphicon glyphicon-map-marker"></span>Chicago, IL
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        <strong> <em>Scholarship Chair</em></strong>
-                        <br/>
-                        <span id="description">Brother of the UChicago Chapter in the Delta Upsilon Fraternity. Elected by 60+ member organization to maintain files, records, and study facilities. Additionally serve on executive committee managing fraternity affairs and aiding in organizational administration</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Experience block END -->
+      </div> <!-- GTR end -->
+      <div class="col-md-offset-1 col-md-10"> <!-- MOTIV Start -->
+        <div class="cardy M">
+          <div class="front gradient4">
+            <em>MOTIV</em>
+          </div>
+          <div class="back">
+            <div class="row">
+              <div class="col-md-3">
+                <p class="company"><strong> MOTIV </strong></p>
+                <p class="title"><strong><em> Business Intern </em></strong></p>
+                <p class="dates"> Sep 2015 - June 2016 </br>
+                  <p class="loc">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    Chicago, IL
+                  </p>
+                  <p class="link">
+                    <a target="_blank">
 
-    <!-- Projects block BEGIN -->
+                    </a>
+                  </p>
+                </p>
+              </div>
+              <div class="col-md-9">
+                <ul class="description list-style">
+                  <li> Strategized development of early stage alternative payment platform for nonprofits to more easily obtain additional donations</li>
+                  <li> Created high-level product functions and contributed to MVP requirement for development team</li>
+                  <li> Conducted market research on online retail landscape and partnership opportunities</li>
+                  <li> Partnered with CEO to prepare investor pitch deck for funding round</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- MOTIV end -->
+      <div class="col-md-offset-1 col-md-10"> <!-- Maroon Start -->
+        <div class="cardy CM">
+          <div class="front gradient5">
+            <em>The Chicago Maroon</em>
+          </div>
+          <div class="back">
+            <div class="row">
+              <div class="col-md-3">
+                <p class="company"><strong> The Chicago Maroon </strong></p>
+                <p class="title"><strong><em> Director of Strategy, MBT </em></strong></p>
+                <p class="dates"> Sep 2015 - Present </br>
+                  <p class="loc">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    Chicago, IL
+                  </p>
+                  <p class="link">
+                    <a href="www.chicagomaroon.com" target="_blank">
+                      www.chicagomaroon.com
+                    </a>
+                  </p>
+                </p>
+              </div>
+              <div class="col-md-9">
+                <ul class="description list-style">
+                  <li> Develop strategic initiatives to improve paper readership through large scale survey to analyze reader feedback</li>
+                  <li> Strategize new ideas for business development, alumni outreach and fundraising activities</li>
+                  <li> Relaunched The Maroon’s social media presence, increasing daily interactions, reach and followers by 15%</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- Maroon end -->
+    </div> <!-- Work end -->
+  </div> <!-- Experience end -->
+
+  <!-- Projects block BEGIN -->
+  <div class="projects container-fluid">
     <a name="projectslink"></a>
-    <section id="bio">
-        <div id="projects" class="container">
-            <h1> <strong> Projects </strong> </h1>
-            <p class="lead" id="projectstagline">All completed coding projects</p>
-            <hr style="border-color: #333230; width: 80%;">
-            <!-- admarko.xyz start-->
-            <div id="admarko" class="container" style="padding-bottom: 25px;">
-                <div class="col-md-4">
-                    <p id="subtitles"> <strong> admarko.xyz </strong> </p>
-                    <p id="experience-period"> June 2016 </p>
-                        <div id="location">
-                            <span class="glyphicon glyphicon-map-marker"></span>New York, NY
-                        </div>
-                    <a href="http://www.admarko.xyz" style="font-size: 20px;">www.admarko.xyz </a>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        <strong> <em> Personal Website</em></strong>
-                        </br>
-                        <span id="description">This is my personal website that gives more information about me and my past experience. Built using HTML5 + CSS3, hosted on GoDaddy.</span>
-                    </p>
-                </div>
-            </div>
-            <!-- admarko.xyz end-->
-            <!-- cache start-->
-            <div id="cache" class="container" style="padding-bottom: 25px;">
-                <div class="col-md-4">
-                    <p id="subtitles"> <strong> Cache Lab</strong> </p>
-                    <p id="experience-period"> April 2016 </p>
-                        <div id="location">
-                            <span class="glyphicon glyphicon-map-marker"></span>Chicago, IL
-                        </div>
-                    <a href="https://github.com/admarko/Cache-Simulator" target="_blank" style="font-size: 20px;">github.com/admarko/Cache-Simulator </a>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        <strong> <em> Cache Simulator </em></strong>
-                        </br>
-                        <span id="description">A cache simulator implemented in C for my computer systems class. The simulator takes a Valgrind trace file as input as well as parameters for the cache and accurately outputs the expected number of hits, misses, and evictions for the trace file. This project was based off the Cache Lab from CMU.</span>
-                    </p>
-                </div>
-            </div>
-            <!-- cache end-->
-            <!-- shell start-->
-            <div id="shell" class="container" style="padding-bottom: 25px;">
-                <div class="col-md-4">
-                    <p id="subtitles"> <strong> Shell Lab</strong> </p>
-                    <p id="experience-period"> May 2016 </p>
-                        <div id="location">
-                            <span class="glyphicon glyphicon-map-marker"></span>Chicago, IL
-                        </div>
-                    <a href="https://github.com/admarko/shell-Simulator" target="_blank" style="font-size: 20px;">github.com/admarko/Shell-Simulator </a>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        <strong> <em> Shell Simulator </em></strong>
-                        </br>
-                        <span id="description">A rudimentary shell built with C that implements basic file system navigation as well as background and foreground process scheduling.</span>
-                    </p>
-                </div>
-            </div>
-            <!-- shell end-->
+    <h1> <strong> Projects </strong> </h1>
+    <hr>
+    <h2>Coding Projects </h2>
+    <div class="row">
+      <div class="col-md-4">
+      </div>
+      <div class="col-md-4">
+      </div>
+      <div class="col-md-4">
+      </div>
+    </div>
+    <hr>
+    <h2>Technical Skills </h2>
+    <ul class="cbp-ig-grid">
+      <li>
+        <a>
+          <span class="cbp-ig-icon">
+            <i class="devicon-bootstrap-plain"></i>
+          </span>
+          <h3 class="cbp-ig-title"></h3>
+          <span class="cbp-ig-category">Bootstrap</span>
+        </a>
+      </li>
+      <li>
+        <a>
+          <span class="cbp-ig-icon">
+            <i class="devicon-c-plain"></i>
+          </span>
+          <h3 class="cbp-ig-title"></h3>
+          <span class="cbp-ig-category">C</span>
+        </a>
+      </li>
+      <li>
+        <a>
+          <span class="cbp-ig-icon">
+            <i class="devicon-d3js-plain"></i>
+          </span>
+          <h3 class="cbp-ig-title"></h3>
+          <span class="cbp-ig-category">D3.js</span>
+        </a>
+      </li>
+      <li>
+        <a>
+          <span class="cbp-ig-icon">
+            <i class="devicon-html5-plain"></i>
+          </span>
+          <h3 class="cbp-ig-title"></h3>
+          <span class="cbp-ig-category">HTML5</span>
+        </a>
+      </li>
+      <li>
+        <a>
+          <span class="cbp-ig-icon">
+            <i class="devicon-javascript-plain"></i>
+          </span>
+          <h3 class="cbp-ig-title"></h3>
+          <span class="cbp-ig-category">Javascript</span>
+        </a>
+      </li>
+      <li>
+        <a>
+          <span class="cbp-ig-icon">
+            <i class="devicon-less-plain-wordmark"></i>
+          </span>
+          <h3 class="cbp-ig-title"></h3>
+          <span class="cbp-ig-category">LESS</span>
+        </a>
+      </li>
+      <li>
+        <a>
+          <span class="cbp-ig-icon">
+            <i class="devicon-rails-plain"></i>
+          </span>
+          <h3 class="cbp-ig-title"></h3>
+          <span class="cbp-ig-category">Rails</span>
+        </a>
+      </li>
+      <li>
+        <a>
+          <span class="cbp-ig-icon">
+            <i class="devicon-ruby-plain"></i>
+          </span>
+          <h3 class="cbp-ig-title"></h3>
+          <span class="cbp-ig-category">Ruby</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- Projects block END -->
 
 
-
-
-        </div>
-    </section>
-    <!-- Projects block END -->
-
-    <!-- footer block BEGIN -->
+  <!-- footer block BEGIN -->
+  <footer id="footer" class="container">
     <a name="contactlink"></a>
-    <footer id="footer" class="container">
-        <div class="col-md-4">
-            <p id="copyright"> Copyright: &copy; 2016 Alex Markowitz</p>
-        </div>
-        <div class="col-md-8">
-            <div id="all-logos">
-                <a href="mailto:admarko@gmail.com?Subject=admarko.xyz" target="_top">
-                    <img src="Images/email.png" style="height: 24px; width: 28px;"></img>
-                </a>
-                <a href="http://www.linkedin.com/in/admarko" target="_blank">
-                    <img src="Images/linkedin.png" id="logos"></img>
-                </a>
-                <a href="http://www.facebook.com/admarko" target="_blank">
-                    <img src="Images/facebook.png" id="logos"></img>
-                </a>
-                <a href="http://www.instagram.com/admarko" target="_blank">
-                    <img src="Images/instagram.png" id="logos"></img>
-                </a>
-                <a href="http://www.github.com/admarko" target="_blank">
-                    <img src="Images/github.png" style="height: 32px; width: 32px;"></img>
-                </a>
-            </div>
-        </div>
-    </footer>
-    <!-- footer block END -->
-
+    <a name="contactlink2"></a>
+    <div class="col-md-4">
+      <p class="copyright"> Copyright: &copy; 2017 Alex Markowitz</p>
+    </div>
+    <div class="col-md-8 logos">
+      <a href="http://www.github.com/admarko" target="_blank">
+        <i class="fa fa-2x fa-github inverse" aria-hidden="true"></i>
+      </a>
+      <a href="mailto:admarko@gmail.com?Subject=admarko.xyz" target="_top">
+        <i class="fa fa-2x fa-envelope-o" aria-hidden="true"></i>
+      </a>
+      <a href="http://www.linkedin.com/in/admarko" target="_blank">
+        <i class="fa fa-2x fa-linkedin-square" aria-hidden="true"></i>
+      </a>
+      <a href="http://www.instagram.com/admarko" target="_blank">
+        <i class="fa fa-2x fa-instagram" aria-hidden="true"></i>
+      </a>
+      <a href="http://www.facebook.com/admarko" target="_blank">
+        <i class="fa fa-2x fa-facebook-square" aria-hidden="true" ></i>
+      </a>
+      <a href="https://www.snapchat.com/add/admarko" target="_blank">
+        <i class="fa fa-2x fa-snapchat"></i>
+      </a>
+    </div>
+  </footer>
+  <!-- footer block END -->
   <!-- Javascript links at end for faster page load -->
-  <script src="jquery.min.js"></script>
-  <script src="app.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="https://goo.gl/RT0j4e"></script>
-  <script src="https://goo.gl/re5les"></script>
-
+  <script src="https://use.fontawesome.com/7bc1086e16.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
