@@ -94,9 +94,9 @@ $(document).ready(function() {
 
     //toggle pic size
     $('.alex-pic').hover(function() {
-      $(this).animate({width: "65%", height: "65%"}, 'fast');
+      $(this).addClass("pulse")
     }, function(){
-      $(this).animate({width: "60%", height: "60%"}, 'fast');
+     $(this).removeClass("pulse")
     });
 
 
