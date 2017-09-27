@@ -30,8 +30,13 @@ $(document).ready(function() {
       }
     });
 
-    //set all <hr> to dark-blue
+    //set all <hr> to dark-blue and
     $("hr").each(function(){$(this).css("border-color","#214555")});
+    $("hr").each(function(){
+      if(!$(this).hasClass("special-hr")){
+        $(this).css("width","90%");
+      }
+    });
 
     //horizontall flip cards on hover
     $(".cardx").each(function(){
@@ -97,6 +102,18 @@ $(document).ready(function() {
       $(this).addClass("pulse")
     }, function(){
      $(this).removeClass("pulse")
+    });
+
+    $('.projs').hover(function(){
+      $(this).css('color', '#F7F5EF');
+    }, function(){
+      $(this).css('color', '#214555');
+    });
+
+    $('.maps').hover(function(){
+      $("maps-desc").hide()
+    }, function(){
+      $("maps-desc").show()
     });
 
 
