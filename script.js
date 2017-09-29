@@ -60,6 +60,7 @@ $(document).ready(function() {
     $("a").hover(
       function(){
         var link = $(this)["0"].hash;
+        var proj = $(this)["0"].parentNode.className
         if (link === "#biolink" ||
             link === '#experiencelink' ||
             link === "#projectslink" ||
@@ -67,6 +68,9 @@ $(document).ready(function() {
           $(this).css('color', '#214555');
         } else {
           $(this).css('color', '#EC5C7D');
+        }
+        if (proj) {
+          console.log("hi");  
         }
       }, function() {
         var link = $(this)["0"].hash;
@@ -87,12 +91,6 @@ $(document).ready(function() {
         $(this).addClass("animated jello");
       }, function(){
         $(this).removeClass("animated jello");
-      }
-    );
-
-    $("dev").hover(
-      function(){
-        console.log("hi");
       }
     );
 
