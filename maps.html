@@ -1,315 +1,188 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>Maps - admarko</title>
+  <html lang="en-US">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Alex Markowitz">
+  <meta name="keywords" content="Alex Markowitz, UChicago, Student, Computer Science, CS, Entrepeneurship">
+  <meta name="author" content="Alex Markowitz">
   <meta charset="utf-8">
-  <title>p3</title>
-  <style>
-    table {
-      border-spacing: 0;
-      border-collapse: collapse;
-    }
-    body {
-      overflow: hidden;
-      height:100vh;
-      background-color: #ccc;
-    }
-    td {
-      position: relative;
-      overflow: hidden;
-      padding: 0px 0px 0px 0px;
-    }
-    td.radio {
-      height: 19px;
-    }
-    .state{
-      stroke-width: 0;
-    }
-    .stateHexID, .stateGridID {
-      font-family: sans-serif;
-      font-size: 11px;
-    }
-    #stateMapY {
-      font-family: sans-serif;
-      font-size: 35px;
-    }
-    .stateHexID {
-      text-anchor: middle;
-      dominant-baseline: central;
-      fill: #333;
-      /* thanks http://stackoverflow.com/questions/4919076/outline-effect-to-text */
-      text-shadow:
-      1px  0px 1px #ddd,
-      -1px  0px 1px #ddd,
-      0px  1px 1px #ddd,
-      0px -1px 1px #ddd;
-    }
-    .stateGridID {
-      font-size: 13px;
-      text-anchor: end;
-      alignment-baseline: hanging;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="css/maps.css">
 </head>
+
 <body>
+  <div class="container">
+    <div class="cell" id="thevis"><svg id="mapUS"></svg></div>
+    <div class="cell" id="cmapleg">
+      <div style="position: relative;">
+        <!-- thanks http://stackoverflow.com/questions/24041111/can-i-place-a-svg-image-element-on-top-a-canvas-element -->
+        <canvas style="outline: #ccc solid 1px;"></canvas>
+        <!-- "cml" == colormap legend -->
+        <svg id="cmlLabels" style="position: absolute; left:-100px; top:-40px;
+                                   font-family: sans-serif; font-size: 12px;
+                                   fill: black; dominant-baseline: central;">
+          <g id="yminlabel" style="text-anchor: end;"><text>ymin</text></g>
+          <g id="ymaxlabel" style="text-anchor: end;"><text>ymax</text></g>
+          <g id="xminlabel" style="text-anchor: start;"><text>xmin</text></g>
+          <g id="xmaxlabel" style="text-anchor: end;"><text>xmax</text></g>
+        </svg>
+        <!-- the container marks is a bit bigger, and shifted up-left, so that
+             the circle marks do not appear cropped;
+             the constant "12" is unfortunate -->
+        <svg id="cmlMarksContainer" style="position: absolute; left:-12px; top:-12px;"><g transform="translate(12,12)"><g id="cmlMarks"></g></g></svg>
+      </div>
+    </div>
+    <div class="cell" id="selector">
+      <form align="left">
+        <input type="radio" name="whichCmap" value="AR">AR: Area (univariate)<br>
+        <input type="radio" name="whichCmap" value="EM">EM: Employment rate (univariate)<br>
+        <input type="radio" name="whichCmap" value="UN">UN: Unemployment rate (univariate)<br>
+        <input type="radio" name="whichCmap" value="OB">OB: Obesity rate (univariate)<br>
+        <input type="radio" name="whichCmap" value="IM">IM: Infant Mortality rate (univariate)<br>
+        <input type="radio" name="whichCmap" value="VU">VU: Obama,Romney votes (univariate)<br>
+        <input type="radio" name="whichCmap" value="WU">WU: Clinton,Trump votes (univariate)<br>
+        <input type="radio" name="whichCmap" value="VB">VB: Obama,Romney votes (bivariate)<br>
+        <input type="radio" name="whichCmap" value="WB">WB: Clinton,Trump votes (bivariate)<br>
+        <input type="radio" name="whichCmap" value="ES">ES: Men's,Women's Earnings (bivariate, symmetric)<br>
+        <input type="radio" name="whichCmap" value="ER">ER: Men's,Women's Earnings (bivariate, re-centered)<br>
+      </form>
+    </div>
+  </div>
 
-<table id="theTable" style="width: 100%; height: 100%; float: left;">
-  <tbody>
-    <tr>
-      <td id="radioSortBy" class="radio">Sort by:
-        <label><input type="radio" name="sortBy" id="sortByAlpha" value="alpha"  checked="checked">alpha</label>
-        <label><input type="radio" name="sortBy" id="sortByMean"  value="mean">mean</label>
-        <label><input type="radio" name="sortBy" id="sortByMax"  value="mex">max</label>
-        </td>
-      <td id="radioColorBy" class="radio">Color by:
-        <label><input type="radio" name="colorBy" id="colorByValue" value="value"  checked="checked">value</label>
-        <label><input type="radio" name="colorBy" id="colorByDiff"  value="diff">value&ndash;mean</label>
-        </td>
-    <tr>
-       <td rowspan=2 id="__stateGrid"><svg id="_stateGrid"><g id="stateGrid"></g></svg></td>
-       <td id="_stateMap">
-       <svg id="stateMap">
-         <g id="_stateMapY"><text id="stateMapY"></text></g>
-         <g id="stateMapG"></g>
-       </svg></td>
-    <tr>
-       <!-- yea, ugly hack -->
-       <td id="_plots">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Measles cases per million people (national average = orange)<svg id="plots"></svg></td>
-</table>
-<script src="lib/d3.v4.js"></script>
-<script src="p3.js"></script>
-<script>
-(function() { // begin IIFE https://en.wikipedia.org/wiki/Immediately-invoked_function_expression
 
-// set up radio button callbacks/ thanks https://bl.ocks.org/mbostock/1483226
-d3.selectAll("#radioSortBy input[name=sortBy]").on("change", function() {
-  p3.sortBySet(this.value);
-});
-d3.selectAll("#radioColorBy input[name=colorBy]").on("change", function() {
-  p3.colorBySet(this.value);
-});
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="scripts/p2.js"></script>
+  <script>
+  (function() { // begin IIFE https://en.wikipedia.org/wiki/Immediately-invoked_function_expression
+  /* set size of SVG to contain US map, based on number of hexagons
+     in it horizontally and vertically */
+  d3.select("#mapUS")
+      .attr("width", 12*p2.hexWidth)
+      .attr("height", (8 + 1/3)*(Math.sqrt(3)/2)*p2.hexWidth);
 
-/* only do this once, and it's happening before any of the code
-   below is called.  Unfortunately not responsive to resizing */
-(function () {
-    var wdth = window.innerWidth;
-    var hght = window.innerHeight - 20; // -20 for radio buttons
-    d3.select("#_stateMapY").attr("transform", "translate(" + 0.11*wdth + ", 40)");
-    d3.select("#_stateGrid").attr("width", 0.53*wdth).attr("height", hght+5);
-    d3.select( "#stateGrid").attr("width", 0.53*wdth).attr("height", hght);
-    d3.select("#stateMap").attr("width", 0.47*wdth).attr("height", 0.46*hght);
-    d3.select("#stateMapG").attr("transform", "translate(" + (0.47*wdth - 11*p3.hexWidth)/4 + ",10)");
-    d3.select("#plots").attr("width", 0.47*wdth).attr("height", 0.52*hght);
-    d3.select("#_stateMap").append("div")
-      .style("position", "absolute")
-      .style("left", 0.11*wdth + "px").style("top", 0.07*hght + "px")
-      .attr("id", "stateMapLink")
-      .html("");
-})();
+  /* function to learn which radio button was selected;
+     thanks http://stackoverflow.com/a/9618826 */
+  function whichRadio(name) {
+      var radios = document.getElementsByName(name);
+      for (var i = 0, length = radios.length; i < length; i++) {
+          if (radios[i].checked) {
+              return radios[i].value;
+          }
+      }
+      return undefined;
+  }
+  d3.selectAll("input").on("click", function() {
+      p2.choiceSet(whichRadio("whichCmap"));
+  });
 
-// mapRowF is for processing one row of data/hexmap.csv
-// mapDataF is for handling when data/hexmap.csv is all read in,
-// See end of this file for how these and other functions
-// are called.
-function mapRowF(d) {
-  /* this is the same as in p2 */
-  var S = 1; // hexagon scaling (1 = touching)
-  var hr = +d.HexRow;
-  var hc = +d.HexCol;
-  // (x,y) center of hexagon, given location in hex grid
-  // variables to simplify tracing hexagon corners
-  var dx = S*p3.hexWidth/2;
-  var HY = S*p3.hexWidth/Math.sqrt(3);
-  var dy = HY/2;
-  d.xy = [p3.hexWidth*(-2 + hc + 0.5*hr),
-          1+p3.hexWidth*(-0.3 + 0.5*Math.sqrt(3)*hr)];
-  // traverse vertices of hexagon centered at 0,0
-  d.pathdata = ("M" + (-dx) + "," + dy +
-                "l" + dx + "," + dy +
-                "l" + dx + "," + (-dy) +
-                "l0," + (-HY) +
-                "l" + (-dx) + "," + (-dy) +
-                "l" + (-dx) + "," + (dy) + "Z");
-  return d;
-};
+  /* create the canvas inside which we put an image of the colormap used.
+     thanks http://bl.ocks.org/mbostock/11413789 */
+  canvas = document.querySelector("canvas");
+  canvas.width = p2.cmlSize;
+  canvas.height = p2.cmlSize;
+  p2.cmlContext = canvas.getContext("2d"); // global
+  p2.cmlImage = p2.cmlContext.createImageData(p2.cmlSize, p2.cmlSize); // global
+  /* set pixels of cmlImage to checkerboard (not useful except
+     as example of how to traverse the cmlImage pixel array */
+  for (var j=0, k=0; j < p2.cmlSize; ++j) {
+      for (var i=0; i < p2.cmlSize; ++i) {
+          p2.cmlImage.data[k++] = 230 + 25*(Math.floor(i/10) % 2); // red
+          p2.cmlImage.data[k++] = 230 + 25*(Math.floor(j/10) % 2); // green
+          p2.cmlImage.data[k++] = 230; // blue
+          p2.cmlImage.data[k++] = 255; // opacity; keep at 255
+      }
+  }
+  // display cmlImage inside canvas
+  p2.cmlContext.putImageData(p2.cmlImage, 0, 0);
 
-function mapDataF(error, Data) { // per-dataset function
-    if (error) throw error;
-    p3.mapData = Data;
-    /* after all hexmap data is read int: for each state, create a "g"
-       inside #stateMapG to contain a "path" for the hexagon, and a "text"
-       to show the state abbreviation */
-    var stateMapGs = d3.select("#stateMapG").selectAll("g")
-      .data(Data)
-      .enter().append("g");
-    stateMapGs.attr("transform", d => "translate(" + d.xy[0] + "," + d.xy[1] + ")")
-      .attr("id", function(d){ return "hex-" + d.StateAbbr;})
-      .on("mousedown", function(){ p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); });
-    stateMapGs.append("path")
-      .attr("class", "stateHex")
-      .attr("d", d => d.pathdata)
-      .style("fill", "#ddd"); // initialize to gray
-    stateMapGs.append("text")
-      .attr("class", "stateHexID")
-      .text( d => d.StateAbbr );
-    // initialize text above map, used to indicate year
-    d3.select("#stateMapY").text("");
-    // example of setting up search link next to map (this
-    // should change once a year is selected (see p3.yearSelect)
-    // and a state are selected
-    d3.select("#stateMapLink").html(p3.searchLink("1955"));
-}
+  /* place the colormap axis labels. The use of constants here
+     to specify their locations is regrettable */
+  d3.select("#cmlMarksContainer")
+      .attr("width", p2.cmlSize+40) // #cmlMarks is shifted by 12, plus a bit
+      .attr("height", p2.cmlSize+40)
+  d3.select("#cmlMarks")
+      .attr("width", p2.cmlSize)
+      .attr("height", p2.cmlSize)
+  d3.select("#cmlLabels")
+      .attr("width", 120+p2.cmlSize)
+      .attr("height", 80+p2.cmlSize)
+  d3.select("#yminlabel")
+      .attr("transform", "translate(90, " + (40+p2.cmlSize) + ")")
+  d3.select("#ymaxlabel")
+      .attr("transform", "translate(90, 40)")
+  d3.select("#xminlabel")
+      .attr("transform", "translate(100, " + (54+p2.cmlSize) + ")")
+  d3.select("#xmaxlabel")
+      .attr("transform", "translate(" + (100+p2.cmlSize) + ", " + (54+p2.cmlSize) + ")")
 
-function popRowF(d) {
-    /* within each row, convert to numbers the things that can be numbers,
-       leaving as strings "StateAbbr" and "StateName" */
-    d3.keys(d).forEach(k => {d[k]= isNaN(+d[k]) ? d[k] : +d[k];});
-    return p3.popRowFinish(d);
-}
+  /* read the data */
+  d3.csv("data/states.csv",
+         function(d) { // per-datum function
+          /* augment each datum (row of csv file) with "xy" coordinates of hexagon center
+             and "pathdata" svg specification of hexagon perimeter */
+          var S = 1; // hexagon scaling (1 = touching)
+          var hr = +d.HexRow;
+          var hc = +d.HexCol;
+          // (x,y) center of hexagon, given location in hex grid
+          // variables to simplify tracing hexagon corners
+          var dx = S*p2.hexWidth/2;
+          var HY = S*p2.hexWidth/Math.sqrt(3);
+          var dy = HY/2;
+          d.xy = [p2.hexWidth*(-2 + hc + 0.5*hr),
+                  1+p2.hexWidth*(-0.3 + 0.5*Math.sqrt(3)*hr)];
+          // traverse vertices of hexagon centered at 0,0
+          d.pathdata = ("M" + (-dx) + "," + dy +
+                        "l" + dx + "," + dy +
+                        "l" + dx + "," + (-dy) +
+                        "l0," + (-HY) +
+                        "l" + (-dx) + "," + (-dy) +
+                        "l" + (-dx) + "," + (dy) + "Z");
+          // finish by calling your datum/row finisher
+          return p2.rowFinish(d);
+      }, // end per-datum function
+      function(error, Data) { // per-dataset function
+          if (error) throw error;
+          // save reference to data; http://stackoverflow.com/questions/9491885/csv-to-array-in-d3-js
+          p2.usData = Data;
+          /* for each state, create a "g", which will contain both a "path", for
+             the hexagon, and a "text" to show the state abbreviation */
+          var stategs = d3.select("#mapUS").selectAll("g")
+              .data(Data)
+            .enter().append("g")
+              .attr("transform", function(d) { return "translate(" + d.xy[0] + "," + d.xy[1] + ")"; });
+          stategs.append("path")
+            .attr("class", "state")
+            .attr("d", function(d){ return d.pathdata;})
+            .style("fill", function(d){ return "#ddd" }); // initialize to gray
+          stategs.append("text")
+            .attr("class", "stateID")
+            .text( function(d) { return d["StateAbbr"]; });
 
-function popDataF(error, Data) {
-    if (error) throw error;
-    //console.log("popDataF:", Data);
-    p3.popData = Data;
-    p3.popYears = Data.columns.filter(v => !isNaN(v)).map(v => +v);
-    p3.popDataFinish(Data);
-}
+          /* maps interval [0,Data.length-1] to [0,p2.cmlSize-1]; not that
+             this is an informative thing to do; it just gives all the
+             tickmarks some well-defined initial location */
+          var tscl = d3.scaleLinear().domain([0,Data.length-1]).range([0,p2.cmlSize]);
 
-function caseRowF(d) {
-    /* convert numbers-as-strings to numbers */
-    d3.keys(d).forEach(k => {d[k]= isNaN(+d[k]) ? d[k] : +d[k];});
-    return p3.caseRowFinish(d);
-}
+          /* create tick marks that will indicate the univariate values
+             for each state over the display of a univariate colormap */
+          d3.select("#cmlMarks").selectAll("ellipse")
+              .data(Data)
+            .enter().append("ellipse")
+              .attr("rx", p2.circRad).attr("ry", p2.circRad)
+              .attr("cx", function(d,ii) {return tscl(ii);} )
+              .attr("cy", function(d,ii) {return tscl(ii);} )
+              .attr("stroke", "black")
+              .attr("stroke-opacity", 0.6)
+              .attr("stroke-width", 1.5)
+              .attr("fill", "white")
+              .attr("fill-opacity", 0)
+          ;
 
-function setupFinish() {
-    /* For each state, create a "g" inside #stateGrid, which is one row of
-       of the grid display. */
-    // 0.98 to create a margin on bottom of grid
-    var lineHght = 0.98*d3.select("#stateGrid").attr("height")/51; // 51=50 states + DC
-    var stWdth = (d3.select("#stateGrid").attr("width")-p3.txtWidth)/p3.caseYears.length;
-    d3.select("#stateGrid").attr("transform", "translate(0,5)");
-    var gridRows = d3.select("#stateGrid").selectAll("g")
-      .data(p3.stRate) // the per-state data join
-      .enter().append("g")
-      .attr("id", row => "grid-" + row.state)
-      .attr("height", lineHght);
-    gridRows.attr("transform", (d, i) => "translate(" + p3.txtWidth + "," + (i)*lineHght + ")" );
-    gridRows.append("text")
-      .attr("class", "stateGridID")
-      .text(d => d.state);
-    gridRows.selectAll("rect")
-      .data(d => d.rates) // the within-state per-year data join
-      .enter().append("rect")
-      .attr("x", (d,i) => i*stWdth)
-      .attr("y", -2) // hack, to roughly vertically center state IDs with rects
-      .attr("width", stWdth).attr("height", lineHght)
-      .attr("class", "stateGrid")
-      .attr("id", function(d,i) { return d3.select(this.parentNode).attr("id") + "-" + d.year; })
-      .style("fill", "#ddd" ) // initialize to gray
-      // see https://github.com/d3/d3-selection/blob/master/README.md#event
-      .on("mousedown", function(){ p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); })
-      .on("mousemove", function(){ if (d3.event.which==0) return; p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); });
-
-    // create a "g" to contain all the plots in lower right
-    var svg = d3.select("#plots"), // https://bl.ocks.org/mbostock/3883245
-        margin = {top: 20, right: 20, bottom: 40, left: 40};
-    // save dimensions of this container to p3.plotWdth and p3.plotHght
-    p3.plotWdth = +svg.attr("width") - margin.left - margin.right,
-    p3.plotHght = +svg.attr("height") - margin.top - margin.bottom;
-    // create scale for years along horizontal axis of plots
-    p3.plotXScale = d3.scaleLinear().domain(d3.extent(p3.caseYears)).range([0, p3.plotWdth]);
-    var g = svg.append("g").attr("id", "plotsG")
-       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    // clipping demonstrated at https://bl.ocks.org/mbostock/4015254
-    g.append("clipPath")
-       .attr("id", "plot-clip")
-     .append("rect")
-       .attr("width", p3.plotWdth).attr("height", p3.plotHght);
-    g.append("rect").attr("id", "plot-bkgd")
-       .attr("x", 0).attr("y", -margin.top)
-       .attr("width", p3.plotWdth).attr("height", p3.plotHght + margin.top)
-       .attr("fill", d3.rgb(255,255,255,1))
-       .on("mousedown", function(){ p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); })
-       .on("mousemove", function(){ if (d3.event.which==0) return; p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); });
-    // see https://bl.ocks.org/mbostock/3883245 for simple line chart example
-    var line = d3.line()
-        .x(d => p3.plotXScale(d.year))
-        .y(d => p3.plotHght); // you'll have to supply a better scale
-    // For each state, create a "path" inside #plotsG
-    g.selectAll("path")
-      .data(p3.stRate) // join over states
-      .enter().append("path")
-      .attr("id", d => "plot-" + d.state )
-      .attr("fill", "none")
-      .attr("clip-path", "url(#plot-clip)")
-      .attr("stroke", d3.rgb(0,0,0,p3.plotOpac))
-      .attr("stroke-linejoin", "round")
-      .attr("stroke-linecap", "round")
-      .attr("stroke-width", p3.plotStrokeWidth)
-      .on("mousedown", function(){ p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); })
-      .on("mousemove", function(){ if (d3.event.which==0) return; p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); })
-      .attr("d", line) // defined above
-      .datum(d => d.rates).transition(p3.transDur);
-    g.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + p3.plotHght + ")")
-      // https://github.com/d3/d3-axis/blob/master/README.md#axis_ticks
-      .call(d3.axisBottom(p3.plotXScale).ticks(10, "d"));
-
-    // final plot on top, for calculated US rate
-    var g = svg.append("g").attr("id", "plotUSG")
-       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    g.append("path")
-      .attr("id", "plot-us")
-      .on("mousedown", function(){ p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); })
-      .on("mousemove", function(){ if (d3.event.which==0) return; p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); })
-      .attr("fill", "none")
-      .attr("clip-path", "url(#plot-clip)")
-      .attr("stroke", d3.rgb(255,128,0)) // orange
-      .attr("stroke-linejoin", "round")
-      .attr("stroke-linecap", "round")
-      .attr("stroke-width", p3.plotStrokeWidth)
-      .datum(d => p3.usRate).transition(p3.transDur)
-      .attr("d", line); // defined above
-}
-
-function caseDataF(error, Data) {
-    if (error) throw error;
-    // get array of years; first state (Data[0])'s years same as rest
-    p3.caseYears = d3.keys(Data[0]).filter(v => !isNaN(v)).map(y => +y);
-    p3.caseDataFinish(Data);
-    setupFinish();
-    p3.finalFinish();
-    // start with some year being selected
-    p3.yearSelect(1955);
-}
-
-function csvWrap(filename, rowCB, dataCB, callback) {
-    d3.csv(filename, rowCB, dataCB);
-    callback(null, null /* no need to return anything */);
-}
-
-/* in all the .defer calls below, the ...Row function will first be called
-   on the rows of the csv file, and then the ...Data function will be
-   called at the end (after all rows have been read). The order in which
-   they will be called is the same as it appears below:
-     mapRowF, mapRowF, mapRowF, mapRowF, ...
-     mapDataF,
-     popRowF, popRowF, popRowF, popRowF, ...
-     popDataF,
-     caseRowF, caseRowF, caseRowF, caseRowF, ...
-     caseDataF,
-     setupFinish
-   setupFinish is listed above since it is called by caseData
- */
-d3.queue(1)
-  .defer(csvWrap, "data/hexmap.csv", mapRowF, mapDataF)
-  .defer(csvWrap, "data/population_1930_2010.csv", popRowF, popDataF)
-  .defer(csvWrap, "data/measles_1930_2016.csv", caseRowF, caseDataF)
-  .awaitAll(function(error, files) {
-      if (error) throw error;
-   });
-
-})(); // end IIFE
-</script>
+          // finish by calling your data post-processor
+          p2.dataFinish(Data);
+      }); // end per-dataset function
+    })(); // end IIFE
+  </script>
 </body>
 </html>
