@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>p3</title>
+  <style>
+    table {
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+    body {
+      overflow: hidden;
+      height:100vh;
+      background-color: #ccc;
+    }
+    td {
+      position: relative;
+      overflow: hidden;
+      padding: 0px 0px 0px 0px;
+    }
+    td.radio {
+      height: 19px;
+    }
+    .state{
+      stroke-width: 0;
+    }
+    .stateHexID, .stateGridID {
+      font-family: sans-serif;
+      font-size: 11px;
+    }
+    #stateMapY {
+      font-family: sans-serif;
+      font-size: 35px;
+    }
+    .stateHexID {
+      text-anchor: middle;
+      dominant-baseline: central;
+      fill: #333;
+      /* thanks http://stackoverflow.com/questions/4919076/outline-effect-to-text */
+      text-shadow:
+      1px  0px 1px #ddd,
+      -1px  0px 1px #ddd,
+      0px  1px 1px #ddd,
+      0px -1px 1px #ddd;
+    }
+    .stateGridID {
+      font-size: 13px;
+      text-anchor: end;
+      alignment-baseline: hanging;
+    }
+  </style>
+</head>
+<body>
+
+<table id="theTable" style="width: 100%; height: 100%; float: left;">
+  <tbody>
+    <tr>
+      <td id="radioSortBy" class="radio">Sort by:
+        <label><input type="radio" name="sortBy" id="sortByAlpha" value="alpha"  checked="checked">alpha</label>
+        <label><input type="radio" name="sortBy" id="sortByMean"  value="mean">mean</label>
+        <label><input type="radio" name="sortBy" id="sortByMax"  value="mex">max</label>
+        </td>
+      <td id="radioColorBy" class="radio">Color by:
+        <label><input type="radio" name="colorBy" id="colorByValue" value="value"  checked="checked">value</label>
+        <label><input type="radio" name="colorBy" id="colorByDiff"  value="diff">value&ndash;mean</label>
+        </td>
+    <tr>
+       <td rowspan=2 id="__stateGrid"><svg id="_stateGrid"><g id="stateGrid"></g></svg></td>
+       <td id="_stateMap">
+       <svg id="stateMap">
+         <g id="_stateMapY"><text id="stateMapY"></text></g>
+         <g id="stateMapG"></g>
+       </svg></td>
+    <tr>
+       <!-- yea, ugly hack -->
+       <td id="_plots">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Measles cases per million people (national average = orange)<svg id="plots"></svg></td>
+</table>
+<script src="lib/d3.v4.js"></script>
+<script src="p3.js"></script>
+<script>
+(function() { // begin IIFE https://en.wikipedia.org/wiki/Immediately-invoked_function_expression
+
+// set up radio button callbacks/ thanks https://bl.ocks.org/mbostock/1483226
+d3.selectAll("#radioSortBy input[name=sortBy]").on("change", function() {
+  p3.sortBySet(this.value);
+});
+d3.selectAll("#radioColorBy input[name=colorBy]").on("change", function() {
+  p3.colorBySet(this.value);
+});
+
+/* only do this once, and it's happening before any of the code
+   below is called.  Unfortunately not responsive to resizing */
+(function () {
+    var wdth = window.innerWidth;
+    var hght = window.innerHeight - 20; // -20 for radio buttons
+    d3.select("#_stateMapY").attr("transform", "translate(" + 0.11*wdth + ", 40)");
+    d3.select("#_stateGrid").attr("width", 0.53*wdth).attr("height", hght+5);
+    d3.select( "#stateGrid").attr("width", 0.53*wdth).attr("height", hght);
+    d3.select("#stateMap").attr("width", 0.47*wdth).attr("height", 0.46*hght);
+    d3.select("#stateMapG").attr("transform", "translate(" + (0.47*wdth - 11*p3.hexWidth)/4 + ",10)");
+    d3.select("#plots").attr("width", 0.47*wdth).attr("height", 0.52*hght);
+    d3.select("#_stateMap").append("div")
+      .style("position", "absolute")
+      .style("left", 0.11*wdth + "px").style("top", 0.07*hght + "px")
+      .attr("id", "stateMapLink")
+      .html("");
+})();
+
+// mapRowF is for processing one row of data/hexmap.csv
+// mapDataF is for handling when data/hexmap.csv is all read in,
+// See end of this file for how these and other functions
+// are called.
+function mapRowF(d) {
+  /* this is the same as in p2 */
+  var S = 1; // hexagon scaling (1 = touching)
+  var hr = +d.HexRow;
+  var hc = +d.HexCol;
+  // (x,y) center of hexagon, given location in hex grid
+  // variables to simplify tracing hexagon corners
+  var dx = S*p3.hexWidth/2;
+  var HY = S*p3.hexWidth/Math.sqrt(3);
+  var dy = HY/2;
+  d.xy = [p3.hexWidth*(-2 + hc + 0.5*hr),
+          1+p3.hexWidth*(-0.3 + 0.5*Math.sqrt(3)*hr)];
+  // traverse vertices of hexagon centered at 0,0
+  d.pathdata = ("M" + (-dx) + "," + dy +
+                "l" + dx + "," + dy +
+                "l" + dx + "," + (-dy) +
+                "l0," + (-HY) +
+                "l" + (-dx) + "," + (-dy) +
+                "l" + (-dx) + "," + (dy) + "Z");
+  return d;
+};
+
+function mapDataF(error, Data) { // per-dataset function
+    if (error) throw error;
+    p3.mapData = Data;
+    /* after all hexmap data is read int: for each state, create a "g"
+       inside #stateMapG to contain a "path" for the hexagon, and a "text"
+       to show the state abbreviation */
+    var stateMapGs = d3.select("#stateMapG").selectAll("g")
+      .data(Data)
+      .enter().append("g");
+    stateMapGs.attr("transform", d => "translate(" + d.xy[0] + "," + d.xy[1] + ")")
+      .attr("id", function(d){ return "hex-" + d.StateAbbr;})
+      .on("mousedown", function(){ p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); });
+    stateMapGs.append("path")
+      .attr("class", "stateHex")
+      .attr("d", d => d.pathdata)
+      .style("fill", "#ddd"); // initialize to gray
+    stateMapGs.append("text")
+      .attr("class", "stateHexID")
+      .text( d => d.StateAbbr );
+    // initialize text above map, used to indicate year
+    d3.select("#stateMapY").text("");
+    // example of setting up search link next to map (this
+    // should change once a year is selected (see p3.yearSelect)
+    // and a state are selected
+    d3.select("#stateMapLink").html(p3.searchLink("1955"));
+}
+
+function popRowF(d) {
+    /* within each row, convert to numbers the things that can be numbers,
+       leaving as strings "StateAbbr" and "StateName" */
+    d3.keys(d).forEach(k => {d[k]= isNaN(+d[k]) ? d[k] : +d[k];});
+    return p3.popRowFinish(d);
+}
+
+function popDataF(error, Data) {
+    if (error) throw error;
+    //console.log("popDataF:", Data);
+    p3.popData = Data;
+    p3.popYears = Data.columns.filter(v => !isNaN(v)).map(v => +v);
+    p3.popDataFinish(Data);
+}
+
+function caseRowF(d) {
+    /* convert numbers-as-strings to numbers */
+    d3.keys(d).forEach(k => {d[k]= isNaN(+d[k]) ? d[k] : +d[k];});
+    return p3.caseRowFinish(d);
+}
+
+function setupFinish() {
+    /* For each state, create a "g" inside #stateGrid, which is one row of
+       of the grid display. */
+    // 0.98 to create a margin on bottom of grid
+    var lineHght = 0.98*d3.select("#stateGrid").attr("height")/51; // 51=50 states + DC
+    var stWdth = (d3.select("#stateGrid").attr("width")-p3.txtWidth)/p3.caseYears.length;
+    d3.select("#stateGrid").attr("transform", "translate(0,5)");
+    var gridRows = d3.select("#stateGrid").selectAll("g")
+      .data(p3.stRate) // the per-state data join
+      .enter().append("g")
+      .attr("id", row => "grid-" + row.state)
+      .attr("height", lineHght);
+    gridRows.attr("transform", (d, i) => "translate(" + p3.txtWidth + "," + (i)*lineHght + ")" );
+    gridRows.append("text")
+      .attr("class", "stateGridID")
+      .text(d => d.state);
+    gridRows.selectAll("rect")
+      .data(d => d.rates) // the within-state per-year data join
+      .enter().append("rect")
+      .attr("x", (d,i) => i*stWdth)
+      .attr("y", -2) // hack, to roughly vertically center state IDs with rects
+      .attr("width", stWdth).attr("height", lineHght)
+      .attr("class", "stateGrid")
+      .attr("id", function(d,i) { return d3.select(this.parentNode).attr("id") + "-" + d.year; })
+      .style("fill", "#ddd" ) // initialize to gray
+      // see https://github.com/d3/d3-selection/blob/master/README.md#event
+      .on("mousedown", function(){ p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); })
+      .on("mousemove", function(){ if (d3.event.which==0) return; p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); });
+
+    // create a "g" to contain all the plots in lower right
+    var svg = d3.select("#plots"), // https://bl.ocks.org/mbostock/3883245
+        margin = {top: 20, right: 20, bottom: 40, left: 40};
+    // save dimensions of this container to p3.plotWdth and p3.plotHght
+    p3.plotWdth = +svg.attr("width") - margin.left - margin.right,
+    p3.plotHght = +svg.attr("height") - margin.top - margin.bottom;
+    // create scale for years along horizontal axis of plots
+    p3.plotXScale = d3.scaleLinear().domain(d3.extent(p3.caseYears)).range([0, p3.plotWdth]);
+    var g = svg.append("g").attr("id", "plotsG")
+       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    // clipping demonstrated at https://bl.ocks.org/mbostock/4015254
+    g.append("clipPath")
+       .attr("id", "plot-clip")
+     .append("rect")
+       .attr("width", p3.plotWdth).attr("height", p3.plotHght);
+    g.append("rect").attr("id", "plot-bkgd")
+       .attr("x", 0).attr("y", -margin.top)
+       .attr("width", p3.plotWdth).attr("height", p3.plotHght + margin.top)
+       .attr("fill", d3.rgb(255,255,255,1))
+       .on("mousedown", function(){ p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); })
+       .on("mousemove", function(){ if (d3.event.which==0) return; p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); });
+    // see https://bl.ocks.org/mbostock/3883245 for simple line chart example
+    var line = d3.line()
+        .x(d => p3.plotXScale(d.year))
+        .y(d => p3.plotHght); // you'll have to supply a better scale
+    // For each state, create a "path" inside #plotsG
+    g.selectAll("path")
+      .data(p3.stRate) // join over states
+      .enter().append("path")
+      .attr("id", d => "plot-" + d.state )
+      .attr("fill", "none")
+      .attr("clip-path", "url(#plot-clip)")
+      .attr("stroke", d3.rgb(0,0,0,p3.plotOpac))
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", p3.plotStrokeWidth)
+      .on("mousedown", function(){ p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); })
+      .on("mousemove", function(){ if (d3.event.which==0) return; p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); })
+      .attr("d", line) // defined above
+      .datum(d => d.rates).transition(p3.transDur);
+    g.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + p3.plotHght + ")")
+      // https://github.com/d3/d3-axis/blob/master/README.md#axis_ticks
+      .call(d3.axisBottom(p3.plotXScale).ticks(10, "d"));
+
+    // final plot on top, for calculated US rate
+    var g = svg.append("g").attr("id", "plotUSG")
+       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    g.append("path")
+      .attr("id", "plot-us")
+      .on("mousedown", function(){ p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); })
+      .on("mousemove", function(){ if (d3.event.which==0) return; p3.onMouse(d3.select(this).attr("id"), d3.mouse(this)); })
+      .attr("fill", "none")
+      .attr("clip-path", "url(#plot-clip)")
+      .attr("stroke", d3.rgb(255,128,0)) // orange
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", p3.plotStrokeWidth)
+      .datum(d => p3.usRate).transition(p3.transDur)
+      .attr("d", line); // defined above
+}
+
+function caseDataF(error, Data) {
+    if (error) throw error;
+    // get array of years; first state (Data[0])'s years same as rest
+    p3.caseYears = d3.keys(Data[0]).filter(v => !isNaN(v)).map(y => +y);
+    p3.caseDataFinish(Data);
+    setupFinish();
+    p3.finalFinish();
+    // start with some year being selected
+    p3.yearSelect(1955);
+}
+
+function csvWrap(filename, rowCB, dataCB, callback) {
+    d3.csv(filename, rowCB, dataCB);
+    callback(null, null /* no need to return anything */);
+}
+
+/* in all the .defer calls below, the ...Row function will first be called
+   on the rows of the csv file, and then the ...Data function will be
+   called at the end (after all rows have been read). The order in which
+   they will be called is the same as it appears below:
+     mapRowF, mapRowF, mapRowF, mapRowF, ...
+     mapDataF,
+     popRowF, popRowF, popRowF, popRowF, ...
+     popDataF,
+     caseRowF, caseRowF, caseRowF, caseRowF, ...
+     caseDataF,
+     setupFinish
+   setupFinish is listed above since it is called by caseData
+ */
+d3.queue(1)
+  .defer(csvWrap, "data/hexmap.csv", mapRowF, mapDataF)
+  .defer(csvWrap, "data/population_1930_2010.csv", popRowF, popDataF)
+  .defer(csvWrap, "data/measles_1930_2016.csv", caseRowF, caseDataF)
+  .awaitAll(function(error, files) {
+      if (error) throw error;
+   });
+
+})(); // end IIFE
+</script>
+</body>
+</html>

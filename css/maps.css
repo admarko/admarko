@@ -1,0 +1,45 @@
+body {
+  overflow: hidden;
+  height:100vh;
+  background-color: #ccc;
+}
+.state{
+  stroke-width: 0;
+}
+.stateID {
+  font-family: sans-serif;
+  text-anchor: middle;
+  dominant-baseline: central;
+  font-size: 11px;
+  fill: #333;
+  /* thanks http://stackoverflow.com/questions/4919076/outline-effect-to-text */
+  text-shadow:
+  1px  0px 1px #ddd,
+  -1px  0px 1px #ddd,
+  0px  1px 1px #ddd,
+  0px -1px 1px #ddd;
+}
+.container {
+  text-align: center;
+  height:100%;
+}
+.cell {
+  /* thanks https://css-tricks.com/centering-css-complete-guide/ */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#thevis{
+  height:60%;
+  width:100%;
+}
+#cmapleg{
+  height:40%;
+  float:left;
+  width:50%;
+}
+#selector{
+  height:40%;
+  float:right;
+  width:50%;
+}
