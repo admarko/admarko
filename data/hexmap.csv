@@ -1,0 +1,52 @@
+StateAbbr,StateName,HexRow,HexCol
+AL,Alabama,7,5
+AK,Alaska,1,2
+AZ,Arizona,7,1
+AR,Arkansas,6,4
+CA,California,6,0
+CO,Colorado,5,2
+CT,Connecticut,4,10
+DE,Delaware,5,9
+DC,District of Columbia,6,8
+FL,Florida,8,5
+GA,Georgia,7,6
+HI,Hawaii,8,-1
+ID,Idaho,4,1
+IL,Illinois,4,5
+IN,Indiana,4,6
+IA,Iowa,4,4
+KS,Kansas,6,3
+KY,Kentucky,5,5
+LA,Louisiana,7,3
+ME,Maine,1,12
+MD,Maryland,5,8
+MA,Massachusetts,3,10
+MI,Michigan,3,7
+MN,Minnesota,3,4
+MS,Mississippi,7,4
+MO,Missouri,5,4
+MT,Montana,3,2
+NE,Nebraska,5,3
+NV,Nevada,5,1
+NH,New Hampshire,2,11
+NJ,New Jersey,4,9
+NM,New Mexico,6,2
+NY,New York,3,9
+NC,North Carolina,6,6
+ND,North Dakota,3,3
+OH,Ohio,4,7
+OK,Oklahoma,7,2
+OR,Oregon,5,0
+PA,Pennsylvania,4,8
+RI,Rhode Island,3,11
+SC,South Carolina,6,7
+SD,South Dakota,4,3
+TN,Tennessee,6,5
+TX,Texas,8,2
+UT,Utah,6,1
+VT,Vermont,2,10
+VA,Virginia,5,7
+WA,Washington,3,1
+WV,West Virginia,5,6
+WI,Wisconsin,3,5
+WY,Wyoming,4,2

@@ -1,0 +1,41 @@
+Collecting data on measles cases was motivated by:
+http://graphics.wsj.com/infectious-diseases-and-vaccines/ which (for
+measles) is curiously missing about half the states, and stops in
+2012. For more about the vaccine: https://en.wikipedia.org/wiki/Measles_vaccine
+
+Measles case data:
+
+From 1930 to 2000: The Tycho project at U Pittsburgh: http://www.tycho.pitt.edu
+offers "Level 2 data": http://www.tycho.pitt.edu/data/level2.php which
+was post-processed to sum over weeks within year.
+
+From 2001 through 2014, the CDC's annual "Summary of Notifiable
+Diseases" summarizes data that year's Morbidity and Mortality Weekly
+Reports (MMWRs) They are at: https://www.cdc.gov/mmwr/mmwr_nd/
+
+For 2015 and 2016, the CNC's (National Notifiable Diseases
+Surveillance System) NNDSS tables provide comparable information:
+
+2015: https://data.cdc.gov/NNDSS/NNDSS-Table-I-infrequently-reported-notifiable-dis/pb4z-432k
+2016: https://data.cdc.gov/NNDSS/NNDSS-Table-I-infrequently-reported-notifiable-dis/dwqk-w36f
+
+However, the numbers seem to be smaller than than those in the MMWRs,
+at least for 2014 (where we compared NNDSS and MMWR numbers). This
+is perhaps explained by by a note on the NNDSS pages: "These are
+provisional cases of selected national notifiable diseases ... . NDSS
+data reported by the 50 states ...  are collated and published weekly
+as numbered tables printed in the back of the Morbidity and Mortality
+Weekly Report (MMWR). Cases reported by state health departments to
+CDC for weekly publication are provisional because of ongoing revision
+of information and delayed reporting. Case counts in these tables are
+presented as they were published in the MMWR issues. Therefore,
+numbers listed in later MMWR weeks may reflect changes made to these
+counts as additional information becomes available."
+
+Measles data was collated by GLK and the TAs, and post-processed by GLK.
+
+US State population data came from http://conservancy.umn.edu/handle/11299/181605
+in particular the state2010_hist_pops.xlsx from which the s2010_hist_pops
+table was extracted, and from which the decades 1930 to 2010 were selected.
+
+Population data was downloaded and post-processed by GLK.
