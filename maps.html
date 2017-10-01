@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Maps - admarko</title>
+  <html lang="en-US">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Alex Markowitz">
+  <meta name="keywords" content="Alex Markowitz, UChicago, Student, Computer Science, CS, Entrepeneurship">
+  <meta name="author" content="Alex Markowitz">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="css/maps.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="cell" id="thevis"><svg id="mapUS"></svg></div>
+    <div class="cell" id="cmapleg">
+      <div style="position: relative;">
+        <!-- thanks http://stackoverflow.com/questions/24041111/can-i-place-a-svg-image-element-on-top-a-canvas-element -->
+        <canvas style="outline: #ccc solid 1px;"></canvas>
+        <!-- "cml" == colormap legend -->
+        <svg id="cmlLabels" style="position: absolute; left:-100px; top:-40px;
+                                   font-family: sans-serif; font-size: 12px;
+                                   fill: black; dominant-baseline: central;">
+          <g id="yminlabel" style="text-anchor: end;"><text>ymin</text></g>
+          <g id="ymaxlabel" style="text-anchor: end;"><text>ymax</text></g>
+          <g id="xminlabel" style="text-anchor: start;"><text>xmin</text></g>
+          <g id="xmaxlabel" style="text-anchor: end;"><text>xmax</text></g>
+        </svg>
+        <!-- the container marks is a bit bigger, and shifted up-left, so that
+             the circle marks do not appear cropped;
+             the constant "12" is unfortunate -->
+        <svg id="cmlMarksContainer" style="position: absolute; left:-12px; top:-12px;"><g transform="translate(12,12)"><g id="cmlMarks"></g></g></svg>
+      </div>
+    </div>
+    <div class="cell" id="selector">
+      <form align="left">
+        <input type="radio" name="whichCmap" value="AR">AR: Area (univariate)<br>
+        <input type="radio" name="whichCmap" value="EM">EM: Employment rate (univariate)<br>
+        <input type="radio" name="whichCmap" value="UN">UN: Unemployment rate (univariate)<br>
+        <input type="radio" name="whichCmap" value="OB">OB: Obesity rate (univariate)<br>
+        <input type="radio" name="whichCmap" value="IM">IM: Infant Mortality rate (univariate)<br>
+        <input type="radio" name="whichCmap" value="VU">VU: Obama,Romney votes (univariate)<br>
+        <input type="radio" name="whichCmap" value="WU">WU: Clinton,Trump votes (univariate)<br>
+        <input type="radio" name="whichCmap" value="VB">VB: Obama,Romney votes (bivariate)<br>
+        <input type="radio" name="whichCmap" value="WB">WB: Clinton,Trump votes (bivariate)<br>
+        <input type="radio" name="whichCmap" value="ES">ES: Men's,Women's Earnings (bivariate, symmetric)<br>
+        <input type="radio" name="whichCmap" value="ER">ER: Men's,Women's Earnings (bivariate, re-centered)<br>
+      </form>
+    </div>
+  </div>
+
+
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="scripts/p2.js"></script>
+  <script>
+  (function() { // begin IIFE https://en.wikipedia.org/wiki/Immediately-invoked_function_expression
+  /* set size of SVG to contain US map, based on number of hexagons
+     in it horizontally and vertically */
+  d3.select("#mapUS")
+      .attr("width", 12*p2.hexWidth)
+      .attr("height", (8 + 1/3)*(Math.sqrt(3)/2)*p2.hexWidth);
+
+  /* function to learn which radio button was selected;
+     thanks http://stackoverflow.com/a/9618826 */
+  function whichRadio(name) {
+      var radios = document.getElementsByName(name);
+      for (var i = 0, length = radios.length; i < length; i++) {
+          if (radios[i].checked) {
+              return radios[i].value;
+          }
+      }
+      return undefined;
+  }
+  d3.selectAll("input").on("click", function() {
+      p2.choiceSet(whichRadio("whichCmap"));
+  });
+
+  /* create the canvas inside which we put an image of the colormap used.
+     thanks http://bl.ocks.org/mbostock/11413789 */
+  canvas = document.querySelector("canvas");
+  canvas.width = p2.cmlSize;
+  canvas.height = p2.cmlSize;
+  p2.cmlContext = canvas.getContext("2d"); // global
+  p2.cmlImage = p2.cmlContext.createImageData(p2.cmlSize, p2.cmlSize); // global
+  /* set pixels of cmlImage to checkerboard (not useful except
+     as example of how to traverse the cmlImage pixel array */
+  for (var j=0, k=0; j < p2.cmlSize; ++j) {
+      for (var i=0; i < p2.cmlSize; ++i) {
+          p2.cmlImage.data[k++] = 230 + 25*(Math.floor(i/10) % 2); // red
+          p2.cmlImage.data[k++] = 230 + 25*(Math.floor(j/10) % 2); // green
+          p2.cmlImage.data[k++] = 230; // blue
+          p2.cmlImage.data[k++] = 255; // opacity; keep at 255
+      }
+  }
+  // display cmlImage inside canvas
+  p2.cmlContext.putImageData(p2.cmlImage, 0, 0);
+
+  /* place the colormap axis labels. The use of constants here
+     to specify their locations is regrettable */
+  d3.select("#cmlMarksContainer")
+      .attr("width", p2.cmlSize+40) // #cmlMarks is shifted by 12, plus a bit
+      .attr("height", p2.cmlSize+40)
+  d3.select("#cmlMarks")
+      .attr("width", p2.cmlSize)
+      .attr("height", p2.cmlSize)
+  d3.select("#cmlLabels")
+      .attr("width", 120+p2.cmlSize)
+      .attr("height", 80+p2.cmlSize)
+  d3.select("#yminlabel")
+      .attr("transform", "translate(90, " + (40+p2.cmlSize) + ")")
+  d3.select("#ymaxlabel")
+      .attr("transform", "translate(90, 40)")
+  d3.select("#xminlabel")
+      .attr("transform", "translate(100, " + (54+p2.cmlSize) + ")")
+  d3.select("#xmaxlabel")
+      .attr("transform", "translate(" + (100+p2.cmlSize) + ", " + (54+p2.cmlSize) + ")")
+
+  /* read the data */
+  d3.csv("data/states.csv",
+         function(d) { // per-datum function
+          /* augment each datum (row of csv file) with "xy" coordinates of hexagon center
+             and "pathdata" svg specification of hexagon perimeter */
+          var S = 1; // hexagon scaling (1 = touching)
+          var hr = +d.HexRow;
+          var hc = +d.HexCol;
+          // (x,y) center of hexagon, given location in hex grid
+          // variables to simplify tracing hexagon corners
+          var dx = S*p2.hexWidth/2;
+          var HY = S*p2.hexWidth/Math.sqrt(3);
+          var dy = HY/2;
+          d.xy = [p2.hexWidth*(-2 + hc + 0.5*hr),
+                  1+p2.hexWidth*(-0.3 + 0.5*Math.sqrt(3)*hr)];
+          // traverse vertices of hexagon centered at 0,0
+          d.pathdata = ("M" + (-dx) + "," + dy +
+                        "l" + dx + "," + dy +
+                        "l" + dx + "," + (-dy) +
+                        "l0," + (-HY) +
+                        "l" + (-dx) + "," + (-dy) +
+                        "l" + (-dx) + "," + (dy) + "Z");
+          // finish by calling your datum/row finisher
+          return p2.rowFinish(d);
+      }, // end per-datum function
+      function(error, Data) { // per-dataset function
+          if (error) throw error;
+          // save reference to data; http://stackoverflow.com/questions/9491885/csv-to-array-in-d3-js
+          p2.usData = Data;
+          /* for each state, create a "g", which will contain both a "path", for
+             the hexagon, and a "text" to show the state abbreviation */
+          var stategs = d3.select("#mapUS").selectAll("g")
+              .data(Data)
+            .enter().append("g")
+              .attr("transform", function(d) { return "translate(" + d.xy[0] + "," + d.xy[1] + ")"; });
+          stategs.append("path")
+            .attr("class", "state")
+            .attr("d", function(d){ return d.pathdata;})
+            .style("fill", function(d){ return "#ddd" }); // initialize to gray
+          stategs.append("text")
+            .attr("class", "stateID")
+            .text( function(d) { return d["StateAbbr"]; });
+
+          /* maps interval [0,Data.length-1] to [0,p2.cmlSize-1]; not that
+             this is an informative thing to do; it just gives all the
+             tickmarks some well-defined initial location */
+          var tscl = d3.scaleLinear().domain([0,Data.length-1]).range([0,p2.cmlSize]);
+
+          /* create tick marks that will indicate the univariate values
+             for each state over the display of a univariate colormap */
+          d3.select("#cmlMarks").selectAll("ellipse")
+              .data(Data)
+            .enter().append("ellipse")
+              .attr("rx", p2.circRad).attr("ry", p2.circRad)
+              .attr("cx", function(d,ii) {return tscl(ii);} )
+              .attr("cy", function(d,ii) {return tscl(ii);} )
+              .attr("stroke", "black")
+              .attr("stroke-opacity", 0.6)
+              .attr("stroke-width", 1.5)
+              .attr("fill", "white")
+              .attr("fill-opacity", 0)
+          ;
+
+          // finish by calling your data post-processor
+          p2.dataFinish(Data);
+      }); // end per-dataset function
+    })(); // end IIFE
+  </script>
+</body>
+</html>
