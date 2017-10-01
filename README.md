@@ -5,4 +5,4 @@ http://www.admarko.xyz
 
 To compile from LESS -> CSS, run: `lessc --clean-css style.less style.min.css` within the `/css` folder
 
-Also hosts content for *maps* and *measels* projects, located at www.admarko.xyz/[projectname]
+Also hosts content for *maps* and *measles* projects, located at www.admarko.xyz/[projectname]
