@@ -1,8 +1,5 @@
 /*
-  You do your work for Project 2 in this file, within the region
-  indicated below.  Comments throughout give details.
-
-  The information exported from this "p2" (see bottom) are:
+  The information exported from this "p2" are:
   p2.transDur: duration of transitions (in ms)
   p2.hexWidth: per-state hexagon size
   p2.circRad: radius of circles use to indicate states in bivarate maps
@@ -14,11 +11,6 @@
   Note that index.html sets:
   p2.usData: data as read by d3.csv() and post-processed by p2.dataFinish()
   p2.cmlContext, p2.cmlImage: canvas context and image for colormap legend
-
-  Beyond that, how you set this up is entirely up to you, and what you
-  put in here, is up to you.  New functions or variables that are created
-  by rowFinish or dataFinish, that are used by choiceSet, should be in the
-  "p2" namespace (their names should started with "p2." e.g. "p2.helper")
 */
 
 /* module syntax directly copied from d3.v4.js */
@@ -34,8 +26,7 @@ const hexWidth = 60; // size of hexagons in US map
 const circRad = 5; // size of circle marks in bivariate map
 const cmlSize = 210; // width and height of picture of colormap
 
-/* rowFinish(): compute here the information about each state that will be needed for
-       visualization later (e.g. unemployment rate)) */
+/* computes the info about each state that will be needed for visualization */
 function rowFinish(d) {
   //convert all strings into numbers
   d.area = +d.Area;
@@ -64,12 +55,11 @@ function rowFinish(d) {
 
 
 
-/* compute here, with the help of one or more "data.map(function(d) {
-   ... })", per-state information that can only be computed once all the
+/* computes per-state information that can only be computed once all the
    data has read in (e.g. the political leaning variable). Also, learn
    here (once) the extents (the min-to-max range, as learned by
    d3.extent()) for variables that need to be displayed with the colormap
-   and indicated in the colormap legend.  Then, create some convenient and
+   and indicated in the colormap legend. Creates some convenient and
    uniform way to refer to the information needed for every variable
    display: e.g. how to retrieve that variable from each element of the
    data array, the min-to-max extent (as from d3.extent()) of that
@@ -98,7 +88,6 @@ function dataFinish(data) {
   //OBESITY
   p2.obesity = {}
   p2.obesity.extent = d3.extent(data, function(d){return d.obesity;});
-  p2.obesity.midrate = d3.median(data, function(d){return d.obesity;});
   p2.obesity.scaled = d3.scaleLinear()
                         .domain([0,1])
                         .range(p2.obesity.extent);
@@ -166,8 +155,6 @@ function dataFinish(data) {
                         .domain([0,1])
                         .range([d3.hcl(d3.rgb(210,0,0)).l, d3.hcl(d3.rgb(0,0,210)).l]);
   p2.wu.color = function(d){return d3.hcl(p2.wu.h(d), p2.wu.c(d), p2.wu.l(d));}
-
-
 
   //(VB) OBAMA/ROMNEY - BIVARIATE
   p2.vb = {}
@@ -465,9 +452,9 @@ function choiceSet(wat) {
       p2.cmlContext.putImageData(p2.cmlImage, 0, 0);
 
       //part 3
-      d3.select("#xminlabel").html("<text>" + d3.format(",.0f")(p2.area.extent[0]) + "</text>");
+      d3.select("#xminlabel").html("<text>" + d3.format(",.0f")(p2.area.extent[0])+"sq mi" + "</text>");
       d3.select("#yminlabel").html("");
-      d3.select("#xmaxlabel").html("<text>" + d3.format(".0f")(p2.area.extent[1]) + "</text>");
+      d3.select("#xmaxlabel").html("<text>" + d3.format(".0f")(p2.area.extent[1])+"sq mi" + "</text>");
       d3.select("#ymaxlabel").html("");
 
       //part 4 - scale unemployment to size of legend
