@@ -1,8 +1,3 @@
-/*
-You do your work for Project 3 in this file, within the regions
-indicated below.  Comments throughout give details.
-*/
-
 /* module syntax directly copied from d3.v4.js */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -10,28 +5,27 @@ indicated below.  Comments throughout give details.
   (factory((global.p3 = global.p3 || {})));
 }(this, (function (exports) { 'use strict';
 
-const transDur = 500; // if using transitions
-const hexWidth = 39.5; // size of hexagons in US map
-const txtWidth = 20; // width of state label on each row of grid
-const plotOpac = 0.25; // opacity of plots
-const plotStrokeWidth = 2.5; // width of stroke for drawing plot
+const transDur = 500;         //if using transitions
+const hexWidth = 39.5;        //size of hexagons in US map
+const txtWidth = 20;          //width of state label on each row of grid
+const plotOpac = 0.25;        //opacity of plots
+const plotStrokeWidth = 2.5;  //width of stroke for drawing plot
 
-var sortBy = "alpha"; // in synch with index.html
-var colorBy = "value"; // in synch with index.html
+var sortBy = "alpha";   // in synch with index.html
+var colorBy = "value";  // in synch with index.html
 
 // these are set by index.html
-var popYears; // array of years for which there is population data
-var caseYears; // array of all years for which we have case counts
-var mapData; // data from hex map file
-var popData; // (processed) data from population file
-var caseData; // (processed) data from measles case counts
-var plotWdth, plotHght; // dimensions of rectangle in which plots are drawn
-var plotXScale; // linear scale for mapping years to position
+var popYears;           //array of years for which there is population data
+var caseYears;          //array of all years for which we have case counts
+var mapData;            //data from hex map file
+var popData;            //(processed) data from population file
+var caseData;           //(processed) data from measles case counts
+var plotWdth, plotHght; //dimensions of rectangle in which plots are drawn
+var plotXScale;         //linear scale for mapping years to position
 
-// these are set by index.html, but
-// YOU HAVE TO COMPUTE AND FILL IN THE CORRECT VALUES
-var stRate; // per-state rate of measles per 1 million people
-var usRate; // national average rate of measles per 1 million people
+//set by index.html, buthave to compute and fill in correct values
+var stRate; //per-state rate of measles per 1 million people
+var usRate; //national average rate of measles per 1 million people
 
 // little utility for making link to google search for measles
 // in given year and state. If no state is passed, "US" is used.
@@ -43,11 +37,6 @@ function searchLink(year, state) {
   + "measles" + "+%22" + year + "%22+%22" + state + "%22"
   + "\" target=_blank>measles " + year + " " + state + "</a>");
 }
-
-/* ------------------------- do not change anything above this line */
-
-/* YOUR CODE HERE. The functions already here are called by index.html,
-you can see what they do by uncommenting the console.log() */
 
 function sortBySet(wat) {
   //console.log("sortBy ", wat);
@@ -67,8 +56,7 @@ function colorBySet(wat) {
   }
 
   switch(wat) {
-    //value-mean
-    case "diff":
+    case "diff": //value-mean
     var divergeRates = [];
     for (var y = 0; y < 87; y++) {
       for (var i = 0; i < 51; i++) {
@@ -82,15 +70,13 @@ function colorBySet(wat) {
     .domain(divergeExtent)
     .range(["black", "white"]);
 
-    //color in map
     for(var i=0; i<51; i++){
+      //color in map
       p3.mapState = d3.select("#stateMapG").selectAll("g")._groups[0][i].id.split("-")[1]
       d3.select("#stateMapG").selectAll("path")._groups[0][i].style.fill =
       p3.divergemap.color(p3.recToRate(p3.selectedYear.toString(), p3.mapState));
-    }
 
-    //color in grid
-    for(var i=0; i<51; i++){
+      //color in grid
       for(var j=0; j<87; j++){
         var recState = d3.select("#stateGrid").selectAll("g").selectAll("rect")._groups[i][j].id.split("-")[1];
         var recYear = d3.select("#stateGrid").selectAll("g").selectAll("rect")._groups[i][j].id.split("-")[2];
@@ -100,7 +86,7 @@ function colorBySet(wat) {
     break;
 
     //value
-    case "value":
+    case "value": //value
     p3.maxRate = 0
     for(i=0; i<51; i++){
       for(j=0;j<87;j++){
@@ -125,14 +111,13 @@ function colorBySet(wat) {
         var yearlyExtent = d3.extent(yearlyRates);
       }
 
-      //color in map
-      for(var i=0; i<51; i++){
-        p3.mapState = d3.select("#stateMapG").selectAll("g")._groups[0][i].id.split("-")[1]
-        d3.select("#stateMapG").selectAll("path")._groups[0][i].style.fill = p3.cmap.color(p3.recToRate(p3.selectedYear.toString(), p3.mapState));
-      }
-
       //color in grid
       for(var i=0; i<51; i++){
+        //color in map
+        p3.mapState = d3.select("#stateMapG").selectAll("g")._groups[0][i].id.split("-")[1]
+        d3.select("#stateMapG").selectAll("path")._groups[0][i].style.fill = p3.cmap.color(p3.recToRate(p3.selectedYear.toString(), p3.mapState));
+
+        //color in grid
         for(var j=0; j<87; j++){
           var recState = d3.select("#stateGrid").selectAll("g").selectAll("rect")._groups[i][j].id.split("-")[1];
           var recYear = d3.select("#stateGrid").selectAll("g").selectAll("rect")._groups[i][j].id.split("-")[2];
@@ -144,7 +129,6 @@ function colorBySet(wat) {
   }
 
   function caseRowFinish(d) {
-
     return d; // keep this line
   }
 
@@ -184,14 +168,12 @@ function finalFinish() {
   var stateData = [];
   var popSum = [];
 
-  for (var l = 0; l < 51; l++) {
-    popSum[l] = [];
-    for (var m=0; m < 87; m++) {
-      popSum[l][m] = 0;
-    }
-  }
-
   for (var i = 0; i < 51; i++) {
+    popSum[i] = [];
+    for (var m=0; m < 87; m++) {
+      popSum[i][m] = 0;
+    }
+
     for (var y = 1930; y < 2010; y+=10) {
       stateData.push(p3.popData[i][y]);
     }
@@ -321,8 +303,6 @@ function onMouse(ID, xy) {
     }
   }
 }
-
-/* ------------------------- do not change anything below this line */
 
 exports.hexWidth = hexWidth;
 exports.txtWidth = txtWidth;
