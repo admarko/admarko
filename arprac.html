@@ -1,13 +1,36 @@
 <!doctype HTML>
-<!-- Help from: https://medium.com/arjs/augmented-reality-in-10-lines-of-html-4e193ea9fdbf -->
+<!-- help from: https://aframe.io/docs/0.7.0/introduction/ -->
+<!-- ctrl + alt + i , lets you look closer -->
+<!-- view on Firefox for best output -->
 <html>
-<script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
-<script src="https://rawgit.com/jeromeetienne/ar.js/master/aframe/build/aframe-ar.js"> </script>
-<script>THREEx.ArToolhitContext.baseURL = 'https://rawgit.com/jeromeetienne/ar.js/master/three.js'</script>
-  <body style='margin : 0px; overflow: hidden;'>
-    <a-scene embedded artoolhit='sourceType: webcam;'> <!-- declare your scene, specify using artoolkit -->
-      <a-box position='0 0.5 0' material='opacity: 0.5'></a-box>
+  <head>
+    <title>AR Practice</title>
+    <meta name="Alex Markowitz" content="Hello, WebVR! - A-Frame">
+    <!-- For VR -->
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <!-- For AR -->
+    <script src="jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+      <a-sky color="#1C4C6C"></a-sky>
+
+      <a-collada-model src="drone.dae" position="0 2 -2" rotation="15 0 0">
+        <a-animation attribute="rotation"
+                 dur="10000"
+                 fill="forwards"
+                 to="15 360 0"
+                 repeat="indefinite">
+        </a-animation>
+      </a-collada-model>
+
+      <!-- to convert to AR, add "embeded arjs" to <a-scene> tag and add
       <a-marker-camera preset='hiro'></a-marker-camera>
+      -->
     </a-scene>
   </body>
 </html>
