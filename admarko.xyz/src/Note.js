@@ -6,6 +6,10 @@ export default function Post(props) {
   const data = props.location.state;
   const { title, author, published, body } = data;
 
+  function createMarkup() {
+    return { __html: body };
+  }
+
   return (
     <div>
       <h1>{title}</h1>
@@ -17,7 +21,7 @@ export default function Post(props) {
         </div>
       </div>
       <hr />
-      <div dangerouslySetInnerHTML={{ __html: body }} />
+      <div dangerouslySetInnerHTML={createMarkup()} />
       <hr />
       <Link to="/notes">&larr; Back to the posts list</Link>
     </div>

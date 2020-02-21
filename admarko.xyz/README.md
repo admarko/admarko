@@ -73,3 +73,7 @@ TODO:
 - convert to typescript
 - some git hooks
 - fix directory structure: make components folder, change to **styles** just look at general react styleguide
+
+original site setup: https://buttercms.com/blog/cms-integration-how-to-add-a-blog-into-existing-site
+
+butter cms API reference: https://buttercms.com/docs/api/?javascript#get-multiple-pages-(single-pages)
