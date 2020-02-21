@@ -4,6 +4,7 @@ import Home from "./Home";
 import Header from "./Header";
 import Footer from "./Footer";
 import Notes from "./Notes";
+import Note from "./Note";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/notes" component={Notes} />
+            <Route exact path="/notes/:slug" render={Note} />
           </Switch>
         </main>
         <Footer />

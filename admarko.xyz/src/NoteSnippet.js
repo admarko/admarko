@@ -1,11 +1,14 @@
 import React from "react";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 export default function NoteSnippet(props) {
-  const { title, summary, published } = props;
+  const { title, summary, published, slug } = props;
   return (
     <div>
-      <h3>{title}</h3>
+      <h3>
+        <Link to={{ pathname: `notes/${slug}`, state: props }}> {title}</Link>
+      </h3>
       <p>{summary}</p>
       <div>
         <div>
