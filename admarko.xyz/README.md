@@ -69,6 +69,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 TODO:
 
+- protect api key
 - convert to typescript
 - some git hooks
 - fix directory structure: make components folder, change to **styles** just look at general react styleguide
